@@ -1,4 +1,4 @@
-package com.saref.rss_reader;
+package com.saref.rss_reader.news;
 
 public final class FeedItem
 {
