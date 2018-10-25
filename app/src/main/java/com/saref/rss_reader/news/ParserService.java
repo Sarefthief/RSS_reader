@@ -5,8 +5,10 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
+import android.widget.TextView;
 
-public class ParserService extends Service
+public final class ParserService extends Service
 {
     @Override
     public void onCreate() {
@@ -14,18 +16,18 @@ public class ParserService extends Service
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        new FetchFeedTask().execute((Void) null);
+    public int onStartCommand(final Intent intent,final int flags,final int startId) {
+        new Thread(new FetchFeedThread(this)).start();
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(final Intent intent) {
         return null;
     }
 
-    static Intent getParserServiceIntent(Activity activity){
+    static Intent getParserServiceIntent(final Activity activity){
         return new Intent(activity, ParserService.class);
     }
 }

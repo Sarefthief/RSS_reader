@@ -8,13 +8,14 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public final class RssFeedParser
 {
-    public ArrayList parse(InputStream in) throws XmlPullParserException, IOException
+    public List parse(final InputStream in) throws XmlPullParserException, IOException
     {
         try {
-            XmlPullParser parser = Xml.newPullParser();
+            final XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(in, null);
             parser.nextTag();
@@ -24,58 +25,64 @@ public final class RssFeedParser
         }
     }
 
-    private ArrayList readFeed(XmlPullParser parser) throws XmlPullParserException, IOException
+    private List readFeed(final XmlPullParser parser) throws XmlPullParserException, IOException
     {
-        ArrayList feedItems = new ArrayList();
+        List feedItems = new ArrayList();
 
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
-                continue;
-            }
+            int eventType = parser.getEventType();
+
             String name = parser.getName();
-            if (name.equals("item")) {
-                feedItems.add(readItem(parser));
-            } else {
-                parser.next();
+            if(name == null)
+                continue;
+
+            if (eventType == XmlPullParser.START_TAG) {
+                if(name.equalsIgnoreCase("item")) {
+                    feedItems.add(readItem(parser));
+                }
             }
         }
         return feedItems;
     }
     private FeedItem readItem(XmlPullParser parser) throws XmlPullParserException, IOException
     {
+
         String title = null;
         String description = null;
         String link = null;
-        while (parser.next() != XmlPullParser.END_TAG) {
+
+        parser.next();
+        while (!"item".equalsIgnoreCase(parser.getName())){
             if (parser.getEventType() != XmlPullParser.START_TAG) {
+                parser.next();
                 continue;
             }
             String name = parser.getName();
-            switch (name) {
-                case "title":
+
+            if (name!= null && parser.getEventType() == XmlPullParser.START_TAG){
+                if (name.equalsIgnoreCase("title")) {
                     title = readText(parser);
-                    break;
-                case "description":
-                    description = readText(parser);
-                    break;
-                case "link":
+                } else if (name.equalsIgnoreCase("link")) {
                     link = readText(parser);
-                    break;
-                default:
-                    parser.next();
-                    break;
+                } else if (name.equalsIgnoreCase("description")) {
+                    description = readText(parser);
+                }
             }
+            parser.next();
         }
-        return new FeedItem(title, description, link);
+
+        return new FeedItem(title, link, description);
     }
 
-    private String readText(XmlPullParser parser) throws IOException, XmlPullParserException
+    private String readText(final XmlPullParser parser) throws XmlPullParserException, IOException
     {
         String result = "";
         if (parser.next() == XmlPullParser.TEXT) {
             result = parser.getText();
             parser.nextTag();
         }
+
         return result;
     }
+
 }

@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.saref.rss_reader.R;
 
-public class NewsScreen
+public final class NewsScreen
 {
     private Activity activity;
     private Button checkButton;
@@ -29,5 +29,6 @@ public class NewsScreen
             }
         });
     }
+
 
 }

@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.saref.rss_reader.R;
 
-public class NewsScreenActivity extends AppCompatActivity {
+public final class NewsScreenActivity extends AppCompatActivity {
     private TextView test;
 
     @Override

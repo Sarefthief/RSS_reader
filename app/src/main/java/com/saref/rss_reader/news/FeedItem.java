@@ -6,7 +6,7 @@ public final class FeedItem
     private String link;
     private String description;
 
-    public FeedItem(String title, String link, String description)
+    FeedItem(String title, String link, String description)
     {
         this.title = title;
         this.link = link;
@@ -17,7 +17,7 @@ public final class FeedItem
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -25,7 +25,7 @@ public final class FeedItem
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -33,7 +33,7 @@ public final class FeedItem
         return link;
     }
 
-    public void setLink(String link) {
+    public void setLink(final String link) {
         this.link = link;
     }
 }
