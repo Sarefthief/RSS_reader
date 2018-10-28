@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public final class RssFeedParser
 {
-    public ArrayList parse(final InputStream in) throws XmlPullParserException, IOException
+    public ArrayList<FeedItem> parse(final InputStream in) throws XmlPullParserException, IOException
     {
         try {
             final XmlPullParser parser = Xml.newPullParser();
@@ -24,9 +24,9 @@ public final class RssFeedParser
         }
     }
 
-    private ArrayList readFeed(final XmlPullParser parser) throws XmlPullParserException, IOException
+    private ArrayList<FeedItem> readFeed(final XmlPullParser parser) throws XmlPullParserException, IOException
     {
-        ArrayList feedItems = new ArrayList();
+        ArrayList<FeedItem> feedItems = new ArrayList<>();
 
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
             int eventType = parser.getEventType();
