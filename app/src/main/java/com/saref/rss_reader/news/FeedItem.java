@@ -1,6 +1,8 @@
 package com.saref.rss_reader.news;
 
-public final class FeedItem
+import java.io.Serializable;
+
+public final class FeedItem implements Serializable
 {
     private String title;
     private String link;

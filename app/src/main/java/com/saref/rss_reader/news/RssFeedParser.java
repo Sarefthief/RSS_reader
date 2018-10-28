@@ -8,11 +8,10 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 public final class RssFeedParser
 {
-    public List parse(final InputStream in) throws XmlPullParserException, IOException
+    public ArrayList parse(final InputStream in) throws XmlPullParserException, IOException
     {
         try {
             final XmlPullParser parser = Xml.newPullParser();
@@ -25,9 +24,9 @@ public final class RssFeedParser
         }
     }
 
-    private List readFeed(final XmlPullParser parser) throws XmlPullParserException, IOException
+    private ArrayList readFeed(final XmlPullParser parser) throws XmlPullParserException, IOException
     {
-        List feedItems = new ArrayList();
+        ArrayList feedItems = new ArrayList();
 
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
             int eventType = parser.getEventType();
@@ -84,5 +83,4 @@ public final class RssFeedParser
 
         return result;
     }
-
 }

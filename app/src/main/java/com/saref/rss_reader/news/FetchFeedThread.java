@@ -3,7 +3,8 @@ package com.saref.rss_reader.news;
 import android.app.Service;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
-import android.widget.TextView;
+
+import com.saref.rss_reader.R;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -12,7 +13,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FetchFeedThread implements Runnable {
 
@@ -24,28 +24,46 @@ public class FetchFeedThread implements Runnable {
     }
 
     @Override
-    public void run() {
-        final String URL_LINK = "https://lenta.ru/rss";
-        final String BROADCAST_STRING = "test";
+    public void run()
+    {
+        try {
+            parseFeed(openConnection());
+        } catch (IOException e){
+
+        }
+    }
+
+    private HttpURLConnection openConnection() throws IOException
+    {
+        final String URL_LINK = "https://4pda.ru/feed/";
         final String REQUEST_METHOD = "GET";
+        final int READ_TIMEOUT_IN_MILLISECONDS = 10000;
+        final int CONNECT_TIMEOUT_IN_MILLISECONDS = 15000;
 
-        final RssFeedParser parser = new RssFeedParser();
+        final URL url = new URL(URL_LINK);
+        final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setReadTimeout(READ_TIMEOUT_IN_MILLISECONDS);
+        connection.setConnectTimeout(CONNECT_TIMEOUT_IN_MILLISECONDS);
+        connection.setRequestMethod(REQUEST_METHOD);
+        connection.setDoInput(true);
+        connection.connect();
 
+        return connection;
+    }
+
+    private void parseFeed(HttpURLConnection connection)
+    {
         try{
-            final URL url = new URL(URL_LINK);
-            final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000 /* milliseconds */);
-            conn.setConnectTimeout(15000 /* milliseconds */);
-            conn.setRequestMethod(REQUEST_METHOD);
-            conn.setDoInput(true);
-            conn.connect();
-            final InputStream inputStream = conn.getInputStream();
-            final List itemList = parser.parse(inputStream);
-            conn.disconnect();
+            final RssFeedParser parser = new RssFeedParser();
+            final InputStream inputStream = connection.getInputStream();
+            final ArrayList itemList = parser.parse(inputStream);
+            connection.disconnect();
 
-            int itemListSize = itemList.size();
-            final Intent intent = new Intent(BROADCAST_STRING);
-            intent.putExtra("listSize", itemListSize);
+            Intent intent = new Intent(service.getString(R.string.SEND_ITEM_LIST_MESSAGE));
+            intent.putExtra(service.getString(R.string.LIST_NAME), itemList);
+            LocalBroadcastManager.getInstance(service).sendBroadcast(intent);
+
+            intent = new Intent(service.getString(R.string.STOP_SERVICE_MESSAGE));
             LocalBroadcastManager.getInstance(service).sendBroadcast(intent);
         } catch (IOException e){
 
