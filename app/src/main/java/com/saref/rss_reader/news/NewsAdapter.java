@@ -1,6 +1,6 @@
 package com.saref.rss_reader.news;
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,29 +10,40 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.saref.rss_reader.R;
+import com.saref.rss_reader.news.article.ArticleDetailsActivity;
 
 import java.util.ArrayList;
 
 public class NewsAdapter extends ArrayAdapter<FeedItem>
 {
     private ArrayList<FeedItem> itemList;
+    private Activity activity;
 
-    public NewsAdapter(Context context, ArrayList<FeedItem> news)
+    NewsAdapter(Activity activity, ArrayList<FeedItem> news)
     {
-        super(context, 0, news);
+        super(activity, 0, news);
         itemList = news;
+        this.activity = activity;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        FeedItem feedItem = itemList.get(position);
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent)
+    {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_news, parent, false);
         }
         final TextView newsTitle = convertView.findViewById(R.id.newsTitle);
         final TextView newsDescription = convertView.findViewById(R.id.newsDescription);
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FeedItem selectedElement = itemList.get(position);
+                activity.startActivity(ArticleDetailsActivity.getArticleDetailsActivityIntent(activity,selectedElement));
+            }
+        });
 
+        FeedItem feedItem = itemList.get(position);
         try{
             newsTitle.setText(feedItem.getTitle());
             newsDescription.setText(feedItem.getDescription());

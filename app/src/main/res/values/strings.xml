@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">RSS_reader</string>
-    <string name="STOP_SERVICE_MESSAGE">stop service</string>
-    <string name="LIST_NAME">itemList</string>
-    <string name="SEND_ITEM_LIST_MESSAGE">send list</string>
+    <string name="app_name">RSS-reader</string>
+    <string name="articleDetailsButtonName">Перейти к источнику</string>
 </resources>

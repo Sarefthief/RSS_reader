@@ -14,9 +14,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class FetchFeedThread implements Runnable {
-
+public class FetchFeedThread implements Runnable
+{
     private final Service service;
+    private ArrayList itemList;
 
     FetchFeedThread (final Service service)
     {
@@ -51,24 +52,32 @@ public class FetchFeedThread implements Runnable {
         return connection;
     }
 
-    private void parseFeed(HttpURLConnection connection)
+    private void parseFeed(final HttpURLConnection connection)
     {
         try{
             final RssFeedParser parser = new RssFeedParser();
             final InputStream inputStream = connection.getInputStream();
-            final ArrayList itemList = parser.parse(inputStream);
-            connection.disconnect();
-
-            Intent intent = new Intent(service.getString(R.string.SEND_ITEM_LIST_MESSAGE));
-            intent.putExtra(service.getString(R.string.LIST_NAME), itemList);
-            LocalBroadcastManager.getInstance(service).sendBroadcast(intent);
-
-            intent = new Intent(service.getString(R.string.STOP_SERVICE_MESSAGE));
-            LocalBroadcastManager.getInstance(service).sendBroadcast(intent);
+            try{
+                itemList = parser.parse(inputStream);
+            } finally {
+                sendBroadcasts();
+                inputStream.close();
+                connection.disconnect();
+            }
         } catch (IOException e){
 
         } catch (XmlPullParserException e){
 
         }
+    }
+
+    private void sendBroadcasts()
+    {
+        Intent intent = new Intent(NewsScreen.SEND_ITEM_LIST_MESSAGE);
+        intent.putExtra(NewsScreen.LIST_NAME, itemList);
+        LocalBroadcastManager.getInstance(service).sendBroadcast(intent);
+
+        intent = new Intent(NewsScreen.STOP_SERVICE_MESSAGE);
+        LocalBroadcastManager.getInstance(service).sendBroadcast(intent);
     }
 }

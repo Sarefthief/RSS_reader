@@ -14,33 +14,41 @@ import com.saref.rss_reader.R;
 
 public final class ParserService extends Service
 {
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
+
+    BroadcastReceiver receiver = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            stopSelf();
+        }
+    };
 
     @Override
-    public int onStartCommand(final Intent intent,final int flags,final int startId) {
+    public int onStartCommand(final Intent intent,final int flags,final int startId)
+    {
         new Thread(new FetchFeedThread(this)).start();
-
-        BroadcastReceiver receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                stopSelf();
-            }
-        };
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(getString(R.string.STOP_SERVICE_MESSAGE)) );
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(NewsScreen.STOP_SERVICE_MESSAGE) );
 
         return super.onStartCommand(intent, flags, startId);
     }
 
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+    }
+
     @Nullable
     @Override
-    public IBinder onBind(final Intent intent) {
+    public IBinder onBind(final Intent intent)
+    {
         return null;
     }
 
-    static Intent getParserServiceIntent(final Activity activity){
+    static Intent getParserServiceIntent(final Activity activity)
+    {
         return new Intent(activity, ParserService.class);
     }
 }

@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context="com.saref.rss_reader.news.NewsScreenActivity">
 
-
     <ListView
         android:id="@+id/newsList"
         android:layout_width="fill_parent"

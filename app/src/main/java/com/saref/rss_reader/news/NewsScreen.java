@@ -5,42 +5,66 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Parcelable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.ListView;
+
+import com.saref.rss_reader.LifeCycleInterface;
 import com.saref.rss_reader.R;
 
 import java.util.ArrayList;
 
-public final class NewsScreen
+final class NewsScreen implements LifeCycleInterface
 {
+    private static Parcelable state;
+    private ListView listView;
     private Activity activity;
     private ArrayList<FeedItem> itemList;
+
+    static final String STOP_SERVICE_MESSAGE = "stop service";
+    static final String SEND_ITEM_LIST_MESSAGE = "send list";
+    static final String LIST_NAME = "itemList";
 
     NewsScreen (final Activity activity)
     {
         this.activity = activity;
-        findViewComponents();
+        listView = activity.findViewById(R.id.newsList);
+        startService();
     }
 
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
+    private BroadcastReceiver receiver = new BroadcastReceiver()
+    {
         @Override
         public void onReceive(Context context, Intent intent) {
-            itemList = intent.getParcelableArrayListExtra(activity.getString(R.string.LIST_NAME));
+            itemList = intent.getParcelableArrayListExtra(LIST_NAME);
             showNews();
         }
     };
 
-    private void findViewComponents()
+    private void startService()
     {
-        LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(activity.getString(R.string.SEND_ITEM_LIST_MESSAGE)));
         activity.startService(ParserService.getParserServiceIntent(activity));
     }
 
     private void showNews()
     {
         NewsAdapter adapter = new NewsAdapter(activity, itemList);
-        ListView listView = activity.findViewById(R.id.newsList);
         listView.setAdapter(adapter);
+        if(state != null) {
+            listView.onRestoreInstanceState(state);
+        }
     }
 
+    @Override
+    public void onResume()
+    {
+        LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(SEND_ITEM_LIST_MESSAGE));
+    }
+
+    @Override
+    public void onPause()
+    {
+        LocalBroadcastManager.getInstance(activity).unregisterReceiver(receiver);
+        state = listView.onSaveInstanceState();
+    }
 }

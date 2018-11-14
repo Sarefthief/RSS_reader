@@ -11,14 +11,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.saref.rss_reader.news.NewsScreenActivity">
+        <activity android:name=".news.NewsScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="com.saref.rss_reader.news.ParserService" />
+
+        <service android:name=".news.ParserService" />
+
+        <activity android:name=".news.article.ArticleDetailsActivity" />
+        <activity android:name=".channels.ChannelsScreenActivity">
+        </activity>
     </application>
 
 </manifest>
