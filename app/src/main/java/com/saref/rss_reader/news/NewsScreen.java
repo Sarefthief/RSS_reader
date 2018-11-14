@@ -16,14 +16,15 @@ import java.util.ArrayList;
 
 final class NewsScreen implements LifeCycleInterface
 {
-    private static Parcelable state;
+    private Parcelable state;
     private ListView listView;
     private Activity activity;
     private ArrayList<FeedItem> itemList;
 
     static final String STOP_SERVICE_MESSAGE = "stop service";
     static final String SEND_ITEM_LIST_MESSAGE = "send list";
-    static final String LIST_NAME = "itemList";
+    static final String LIST_NAME = "item list";
+    static final String LIST_VIEW_STATE = "list view save state";
 
     NewsScreen (final Activity activity)
     {
@@ -50,7 +51,7 @@ final class NewsScreen implements LifeCycleInterface
     {
         NewsAdapter adapter = new NewsAdapter(activity, itemList);
         listView.setAdapter(adapter);
-        if(state != null) {
+        if (null != state){
             listView.onRestoreInstanceState(state);
         }
     }
@@ -65,6 +66,15 @@ final class NewsScreen implements LifeCycleInterface
     public void onPause()
     {
         LocalBroadcastManager.getInstance(activity).unregisterReceiver(receiver);
-        state = listView.onSaveInstanceState();
+    }
+
+    public Parcelable onSaveInstanceState()
+    {
+        return listView.onSaveInstanceState();
+    }
+
+    public void restoreListViewState(final Parcelable state)
+    {
+        this.state = state;
     }
 }

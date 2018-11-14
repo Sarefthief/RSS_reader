@@ -10,7 +10,6 @@ import com.saref.rss_reader.news.FeedItem;
 
 public final class ArticleDetailsActivity extends AppCompatActivity
 {
-    private ArticleDetailsScreen articleDetailsScreen;
     private final static String FEED_ITEM_EXTRA = "feedItemExtra";
 
     @Override
@@ -19,7 +18,7 @@ public final class ArticleDetailsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_details);
         FeedItem feedItem = getIntent().getParcelableExtra(FEED_ITEM_EXTRA);
-        articleDetailsScreen = new ArticleDetailsScreen(this,feedItem);
+        new ArticleDetailsScreen(this,feedItem);
     }
 
     public static Intent getArticleDetailsActivityIntent(final Activity activity, final FeedItem feedItem)

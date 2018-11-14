@@ -9,11 +9,21 @@ public final class NewsScreenActivity extends AppCompatActivity
 {
     NewsScreen newsScreen;
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_screen);
         newsScreen = new NewsScreen(this);
+        if (null != savedInstanceState){
+            newsScreen.restoreListViewState(savedInstanceState.getParcelable(NewsScreen.LIST_VIEW_STATE));
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(NewsScreen.LIST_VIEW_STATE, newsScreen.onSaveInstanceState());
     }
 
     @Override

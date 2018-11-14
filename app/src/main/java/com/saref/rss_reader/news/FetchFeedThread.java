@@ -4,8 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.saref.rss_reader.R;
-
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
