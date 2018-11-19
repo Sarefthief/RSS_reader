@@ -11,19 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".news.NewsScreenActivity">
+
+        <activity android:name=".news.NewsScreenActivity" />
+        <activity android:name=".news.article.ArticleDetailsActivity" />
+        <activity android:name=".channels.ChannelsScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".channels.add.AddChannelActivity"/>
 
-        <service android:name=".news.ParserService" />
+        <service android:name=".news.parser.FeedParserService" />
+        <service android:name=".channels.parser.CheckChannelService" />
 
-        <activity android:name=".news.article.ArticleDetailsActivity" />
-        <activity android:name=".channels.ChannelsScreenActivity">
-        </activity>
+
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.saref.rss_reader.news;
+package com.saref.rss_reader.news.parser;
 
 import android.app.Activity;
 import android.app.Service;
@@ -10,9 +10,9 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.saref.rss_reader.R;
+import com.saref.rss_reader.news.NewsScreen;
 
-public final class ParserService extends Service
+public final class FeedParserService extends Service
 {
 
     BroadcastReceiver receiver = new BroadcastReceiver()
@@ -47,8 +47,8 @@ public final class ParserService extends Service
         return null;
     }
 
-    static Intent getParserServiceIntent(final Activity activity)
+    public static Intent getParserServiceIntent(final Activity activity)
     {
-        return new Intent(activity, ParserService.class);
+        return new Intent(activity, FeedParserService.class);
     }
 }

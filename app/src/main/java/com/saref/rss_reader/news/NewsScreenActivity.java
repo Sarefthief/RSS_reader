@@ -7,7 +7,8 @@ import com.saref.rss_reader.R;
 
 public final class NewsScreenActivity extends AppCompatActivity
 {
-    NewsScreen newsScreen;
+    private NewsScreen newsScreen;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState)
     {
@@ -17,13 +18,6 @@ public final class NewsScreenActivity extends AppCompatActivity
         if (null != savedInstanceState){
             newsScreen.restoreListViewState(savedInstanceState.getParcelable(NewsScreen.LIST_VIEW_STATE));
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(final Bundle outState)
-    {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(NewsScreen.LIST_VIEW_STATE, newsScreen.onSaveInstanceState());
     }
 
     @Override
@@ -39,4 +33,12 @@ public final class NewsScreenActivity extends AppCompatActivity
         super.onPause();
         newsScreen.onPause();
     }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(NewsScreen.LIST_VIEW_STATE, newsScreen.onSaveInstanceState());
+    }
+
 }

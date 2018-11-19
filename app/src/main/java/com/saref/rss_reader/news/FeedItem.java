@@ -9,14 +9,14 @@ public final class FeedItem implements Parcelable
     private String link;
     private String description;
 
-    FeedItem(String title, String link, String description)
+    public FeedItem(final String title,final String link,final String description)
     {
         this.title = title;
         this.link = link;
         this.description = description;
     }
 
-    private FeedItem(Parcel in)
+    private FeedItem(final Parcel in)
     {
         String[] data = new String[3];
         in.readStringArray(data);
@@ -62,7 +62,7 @@ public final class FeedItem implements Parcelable
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i)
+    public void writeToParcel(final Parcel parcel, int i)
     {
         parcel.writeStringArray(new String[] { title, link, description });
     }
@@ -70,13 +70,13 @@ public final class FeedItem implements Parcelable
     public static final Parcelable.Creator<FeedItem> CREATOR = new Parcelable.Creator<FeedItem>()
     {
         @Override
-        public FeedItem createFromParcel(Parcel source)
+        public FeedItem createFromParcel(final Parcel source)
         {
             return new FeedItem(source);
         }
 
         @Override
-        public FeedItem[] newArray(int size)
+        public FeedItem[] newArray(final int size)
         {
             return new FeedItem[size];
         }

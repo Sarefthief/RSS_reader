@@ -1,6 +1,8 @@
-package com.saref.rss_reader.news;
+package com.saref.rss_reader.news.parser;
 
 import android.util.Xml;
+
+import com.saref.rss_reader.news.FeedItem;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -9,13 +11,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public final class RssFeedParser
+final class RssFeedParser
 {
-
     private final String ATOM_ITEM_NAME = "entry";
     private final String RSS_ITEM_NAME = "item";
 
-    public ArrayList<FeedItem> parse(final InputStream in) throws XmlPullParserException, IOException
+    ArrayList<FeedItem> parse(final InputStream in) throws XmlPullParserException, IOException
     {
         final XmlPullParser parser = Xml.newPullParser();
         parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -46,7 +47,7 @@ public final class RssFeedParser
         return feedItems;
     }
 
-    private FeedItem readItem(XmlPullParser parser) throws XmlPullParserException, IOException
+    private FeedItem readItem(final XmlPullParser parser) throws XmlPullParserException, IOException
     {
         String title = "";
         String description = "";

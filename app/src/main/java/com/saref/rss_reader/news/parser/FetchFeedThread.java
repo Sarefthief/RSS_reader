@@ -1,8 +1,10 @@
-package com.saref.rss_reader.news;
+package com.saref.rss_reader.news.parser;
 
 import android.app.Service;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
+
+import com.saref.rss_reader.news.NewsScreen;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -12,7 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class FetchFeedThread implements Runnable
+class FetchFeedThread implements Runnable
 {
     private final Service service;
     private ArrayList itemList;
@@ -34,7 +36,7 @@ public class FetchFeedThread implements Runnable
 
     private HttpURLConnection openConnection() throws IOException
     {
-        final String URL_LINK = "https://4pda.ru/feed/";
+        final String URL_LINK = "https://vk.com/strimuska";
         final String REQUEST_METHOD = "GET";
         final int READ_TIMEOUT_IN_MILLISECONDS = 10000;
         final int CONNECT_TIMEOUT_IN_MILLISECONDS = 15000;

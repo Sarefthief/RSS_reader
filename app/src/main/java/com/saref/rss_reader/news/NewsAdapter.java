@@ -18,6 +18,7 @@ public class NewsAdapter extends ArrayAdapter<FeedItem>
 {
     private ArrayList<FeedItem> itemList;
     private Activity activity;
+    private boolean isClicked = false;
 
     NewsAdapter(Activity activity, ArrayList<FeedItem> news)
     {
@@ -38,8 +39,11 @@ public class NewsAdapter extends ArrayAdapter<FeedItem>
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FeedItem selectedElement = itemList.get(position);
-                activity.startActivity(ArticleDetailsActivity.getArticleDetailsActivityIntent(activity,selectedElement));
+                if (!isClicked) {
+                    FeedItem selectedElement = itemList.get(position);
+                    isClicked = true;
+                    activity.startActivity(ArticleDetailsActivity.getArticleDetailsActivityIntent(activity,selectedElement));
+                }
             }
         });
 
@@ -52,5 +56,10 @@ public class NewsAdapter extends ArrayAdapter<FeedItem>
         }
 
         return convertView;
+    }
+
+    public void changeClickState()
+    {
+        isClicked = false;
     }
 }
