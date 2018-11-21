@@ -3,50 +3,19 @@ package com.saref.rss_reader.channels;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public final class Channel implements Parcelable
+import java.io.Serializable;
+import java.net.URL;
+
+public final class Channel implements Serializable
 {
     private String title;
-    private String link;
+    private URL link;
 
-    public Channel(final String title,final String link)
+    public Channel(final String title,final URL link)
     {
         this.title = title;
         this.link = link;
     }
-
-    private Channel(final Parcel in)
-    {
-        String[] data = new String[2];
-        in.readStringArray(data);
-        title = data[0];
-        link = data[1];
-    }
-
-    @Override
-    public int describeContents()
-    {
-        return 0;
-    }
-
-    public void writeToParcel(final Parcel parcel, int i)
-    {
-        parcel.writeStringArray(new String[] { title, link});
-    }
-
-    public static final Parcelable.Creator<Channel> CREATOR = new Parcelable.Creator<Channel>()
-    {
-        @Override
-        public Channel createFromParcel(final Parcel source)
-        {
-            return new Channel(source);
-        }
-
-        @Override
-        public Channel[] newArray(final int size)
-        {
-            return new Channel[size];
-        }
-    };
 
     public String getTitle()
     {
@@ -58,12 +27,12 @@ public final class Channel implements Parcelable
         this.title = title;
     }
 
-    public String getLink()
+    public URL getLink()
     {
         return link;
     }
 
-    public void setLink(final String link)
+    public void setLink(final URL link)
     {
         this.link = link;
     }

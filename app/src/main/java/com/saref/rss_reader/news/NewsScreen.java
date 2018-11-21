@@ -15,9 +15,10 @@ import com.saref.rss_reader.LifeCycleInterface;
 import com.saref.rss_reader.R;
 import com.saref.rss_reader.news.parser.FeedParserService;
 
+import java.net.URL;
 import java.util.ArrayList;
 
-public final class NewsScreen implements LifeCycleInterface
+final class NewsScreen implements LifeCycleInterface
 {
     private Parcelable state;
     private ListView listView;
@@ -26,33 +27,28 @@ public final class NewsScreen implements LifeCycleInterface
     private NewsAdapter adapter;
     private ProgressBar progressBar;
 
-    public static final String STOP_SERVICE_MESSAGE = "stop service";
-    public static final String SEND_ITEM_LIST_MESSAGE = "send list";
-    public static final String LIST_NAME = "item list";
-    public static final String LIST_VIEW_STATE = "list view save state";
-
-    NewsScreen (final Activity activity)
+    NewsScreen (final Activity activity,final URL url)
     {
         this.activity = activity;
         listView = activity.findViewById(R.id.newsList);
         progressBar = activity.findViewById(R.id.newsListProgressBar);
         progressBar.setVisibility(View.VISIBLE);
-        startService();
+        startService(url);
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver()
     {
         @Override
         public void onReceive(Context context, Intent intent) {
-            itemList = intent.getParcelableArrayListExtra(LIST_NAME);
+            itemList = intent.getParcelableArrayListExtra(NewsScreenActivity.LIST_NAME);
             progressBar.setVisibility(View.GONE);
             showNews();
         }
     };
 
-    private void startService()
+    private void startService(final URL url)
     {
-        activity.startService(FeedParserService.getParserServiceIntent(activity));
+        activity.startService(FeedParserService.getParserServiceIntent(activity,url));
     }
 
     private void showNews()
@@ -73,7 +69,7 @@ public final class NewsScreen implements LifeCycleInterface
         if(adapter != null){
             adapter.changeClickState();
         }
-        LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(SEND_ITEM_LIST_MESSAGE));
+        LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(NewsScreenActivity.SEND_ITEM_LIST_MESSAGE));
     }
 
     @Override

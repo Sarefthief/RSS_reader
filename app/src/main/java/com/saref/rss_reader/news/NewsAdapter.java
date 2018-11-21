@@ -48,12 +48,8 @@ public class NewsAdapter extends ArrayAdapter<FeedItem>
         });
 
         FeedItem feedItem = itemList.get(position);
-        try{
-            newsTitle.setText(feedItem.getTitle());
-            newsDescription.setText(feedItem.getDescription());
-        } catch (NullPointerException e){
-
-        }
+        newsTitle.setText(feedItem.getTitle());
+        newsDescription.setText(feedItem.getDescription());
 
         return convertView;
     }

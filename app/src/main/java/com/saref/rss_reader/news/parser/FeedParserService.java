@@ -1,54 +1,69 @@
 package com.saref.rss_reader.news.parser;
 
 import android.app.Activity;
-import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.app.IntentService;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.saref.rss_reader.news.NewsScreen;
+import com.saref.rss_reader.ConnectionEstablishment;
+import com.saref.rss_reader.news.NewsScreenActivity;
 
-public final class FeedParserService extends Service
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+
+public final class FeedParserService extends IntentService
 {
-
-    BroadcastReceiver receiver = new BroadcastReceiver()
+    public FeedParserService()
     {
-        @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            stopSelf();
+        super("FeedParserService");
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent)
+    {
+        if(null != intent.getExtras()){
+            parseFeed((URL) intent.getExtras().get(NewsScreenActivity.NEWS_SCREEN_ACTIVITY_EXTRA));
         }
-    };
-
-    @Override
-    public int onStartCommand(final Intent intent,final int flags,final int startId)
-    {
-        new Thread(new FetchFeedThread(this)).start();
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(NewsScreen.STOP_SERVICE_MESSAGE) );
-
-        return super.onStartCommand(intent, flags, startId);
     }
 
-    @Override
-    public void onDestroy()
+    public static Intent getParserServiceIntent(final Activity activity, URL url)
     {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        Intent intent = new Intent(activity, FeedParserService.class);
+        intent.putExtra(NewsScreenActivity.NEWS_SCREEN_ACTIVITY_EXTRA, url);
+        return intent;
     }
 
-    @Nullable
-    @Override
-    public IBinder onBind(final Intent intent)
+    private void parseFeed(URL url)
     {
-        return null;
+        try {
+            ArrayList itemList = new ArrayList();
+            final RssFeedParser parser = new RssFeedParser();
+            HttpURLConnection connection = ConnectionEstablishment.openConnection(url);
+            final InputStream inputStream = connection.getInputStream();
+            try {
+                itemList = parser.parse(inputStream);
+            } finally {
+                sendBroadcast(itemList);
+                inputStream.close();
+                connection.disconnect();
+            }
+        } catch (IOException e) {
+
+        } catch (XmlPullParserException e) {
+
+        }
     }
 
-    public static Intent getParserServiceIntent(final Activity activity)
+    private void sendBroadcast(ArrayList itemList)
     {
-        return new Intent(activity, FeedParserService.class);
+        Intent intent = new Intent(NewsScreenActivity.SEND_ITEM_LIST_MESSAGE);
+        intent.putExtra(NewsScreenActivity.LIST_NAME, itemList);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }
