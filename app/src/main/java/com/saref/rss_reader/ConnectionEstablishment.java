@@ -7,7 +7,8 @@ import java.net.URL;
 public final class ConnectionEstablishment
 {
     private ConnectionEstablishment()
-    {}
+    {
+    }
 
     public static HttpURLConnection openConnection(final URL url) throws IOException
     {

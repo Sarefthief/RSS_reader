@@ -36,20 +36,23 @@ public final class ChannelsActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(final MenuItem item)
     {
-        if(item.getItemId() == R.id.addChannelMenuButton){
-            if (!isClicked) {
+        if (item.getItemId() == R.id.addChannelMenuButton)
+        {
+            if (!isClicked)
+            {
                 isClicked = true;
-                startActivityForResult(AddChannelActivity.getAddChannelIntent(this),ADD_CHANNEL_REQUEST_CODE);
+                startActivityForResult(AddChannelActivity.getAddChannelIntent(this), ADD_CHANNEL_REQUEST_CODE);
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    protected void onActivityResult(final int requestCode,final int resultCode,final Intent data)
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if(RESULT_OK == resultCode){
+        if (RESULT_OK == resultCode)
+        {
             Channel channel = data.getParcelableExtra(ADD_CHANNEL_MESSAGE);
             channelsScreen.addChannel(channel);
         }

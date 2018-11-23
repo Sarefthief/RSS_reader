@@ -29,11 +29,12 @@ public final class NewsActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_screen);
-        if(null != getIntent().getExtras()){
+        if (null != getIntent().getExtras())
+        {
             newsScreen = new NewsScreen(this, getIntent().getStringExtra(CHANNEL_LINK_EXTRA));
         }
-
-        if (null != savedInstanceState){
+        if (null != savedInstanceState)
+        {
             newsScreen.restoreListViewState(savedInstanceState.getParcelable(LIST_VIEW_STATE));
         }
     }

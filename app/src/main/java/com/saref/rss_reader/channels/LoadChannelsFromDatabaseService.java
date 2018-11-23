@@ -54,15 +54,20 @@ public class LoadChannelsFromDatabaseService extends IntentService
     {
         ArrayList<Channel> channelsList = new ArrayList<>();
         Cursor cursor = null;
-        try {
+        try
+        {
             cursor = database.query(ChannelsContract.TABLE_NAME, projection, null, null, null, null, null);
-        } catch (SQLiteException e) {
+        }
+        catch (SQLiteException e)
+        {
 
         }
-        if (null != cursor) {
+        if (null != cursor)
+        {
             final int titleColIndex = cursor.getColumnIndex(projection[0]);
             final int linkColIndex = cursor.getColumnIndex(projection[1]);
-            while (cursor.moveToNext()) {
+            while (cursor.moveToNext())
+            {
                 channelsList.add(new Channel(cursor.getString(titleColIndex), cursor.getString(linkColIndex)));
             }
             cursor.close();

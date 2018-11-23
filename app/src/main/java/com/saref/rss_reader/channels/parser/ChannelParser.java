@@ -31,15 +31,20 @@ public final class ChannelParser
         checkXML(parser);
         String title = "";
 
-        while (!ATOM_ITEM_NAME.equalsIgnoreCase(parser.getName()) && !RSS_ITEM_NAME.equalsIgnoreCase(parser.getName())) {
+        while (!ATOM_ITEM_NAME.equalsIgnoreCase(parser.getName()) && !RSS_ITEM_NAME.equalsIgnoreCase(parser.getName()))
+        {
             parser.next();
             String name = parser.getName();
 
             if (null == name)
+            {
                 continue;
+            }
 
-            if (TITLE_NAME.equalsIgnoreCase(name)) {
-                if (XmlPullParser.TEXT == parser.next()) {
+            if (TITLE_NAME.equalsIgnoreCase(name))
+            {
+                if (XmlPullParser.TEXT == parser.next())
+                {
                     title = parser.getText();
                     break;
                 }
@@ -58,16 +63,19 @@ public final class ChannelParser
         boolean isRss = false;
         String name;
 
-        for (int i = 0; i < QUANTITY_OF_TAGS_TO_CHECK; i++) {
+        for (int i = 0; i < QUANTITY_OF_TAGS_TO_CHECK; i++)
+        {
             name = parser.getName();
-            if (RSS_PARENT_TAG_NAME.equalsIgnoreCase(name) || ATOM_PARENT_TAG_NAME.equalsIgnoreCase(name)) {
+            if (RSS_PARENT_TAG_NAME.equalsIgnoreCase(name) || ATOM_PARENT_TAG_NAME.equalsIgnoreCase(name))
+            {
                 isRss = true;
                 break;
             }
             parser.next();
         }
 
-        if (!isRss) {
+        if (!isRss)
+        {
             throw new WrongXmlTypeException();
         }
     }

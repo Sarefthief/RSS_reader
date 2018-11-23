@@ -41,7 +41,8 @@ final class ChannelsScreen implements LifeCycleInterface
         adapter = new ChannelsAdapter(activity, channelsList);
         final ListView channelListView = activity.findViewById(R.id.channelsList);
         channelListView.setAdapter(adapter);
-        if (0 == channelsList.size()) {
+        if (0 == channelsList.size())
+        {
             channelListView.setEmptyView(activity.findViewById(R.id.emptyChannelsList));
         }
     }
@@ -55,7 +56,8 @@ final class ChannelsScreen implements LifeCycleInterface
     public void onResume()
     {
         LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(ChannelsActivity.LOAD_CHANNELS_LIST_MESSAGE));
-        if (null != adapter) {
+        if (null != adapter)
+        {
             adapter.changeClickState();
         }
     }

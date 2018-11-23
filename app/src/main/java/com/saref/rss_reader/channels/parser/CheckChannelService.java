@@ -63,28 +63,41 @@ public final class CheckChannelService extends IntentService
     @Override
     protected void onHandleIntent(Intent intent)
     {
-        if (intent.hasExtra(CHECK_CHANNEL_EXTRA_URL)) {
+        if (intent.hasExtra(CHECK_CHANNEL_EXTRA_URL))
+        {
             final Channel channel = intent.getParcelableExtra(CHECK_CHANNEL_EXTRA_URL);
             final ChannelParser channelParser = new ChannelParser();
-            try {
+            try
+            {
                 checkChannelExistence(channel);
                 final HttpURLConnection connection = ConnectionEstablishment.openConnection(new URL(channel.getLink()));
                 final InputStream inputStream = connection.getInputStream();
-                try {
+                try
+                {
                     channel.setTitle(channelParser.getChannelTitle(inputStream));
-                } finally {
+                }
+                finally
+                {
                     inputStream.close();
                     connection.disconnect();
                     saveChannelToDatabase(channel);
                 }
-            } catch (XmlPullParserException e) {
+            }
+            catch (XmlPullParserException e)
+            {
 
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
 
-            } catch (WrongXmlTypeException e) {
+            }
+            catch (WrongXmlTypeException e)
+            {
                 //TODO Логирование
                 sendErrorBroadcast(getString(R.string.notRssOrAtomXmlError));
-            } catch (ChannelAlreadyExistException e) {
+            }
+            catch (ChannelAlreadyExistException e)
+            {
                 //TODO Логирование
                 sendErrorBroadcast(getString(R.string.channelIsAlreadyExistsError));
             }
@@ -96,10 +109,13 @@ public final class CheckChannelService extends IntentService
         ContentValues values = new ContentValues();
         values.put(ChannelsContract.COLUMN_NAME_TITLE, channel.getTitle());
         values.put(ChannelsContract.COLUMN_NAME_LINK, channel.getLink());
-        try {
+        try
+        {
             database.insertOrThrow(ChannelsContract.TABLE_NAME, null, values);
             sendBroadcast(channel);
-        } catch (SQLiteException e) {
+        }
+        catch (SQLiteException e)
+        {
             //TODO Логирование
             sendErrorBroadcast(getString(R.string.channelWriteSqlError));
         }
@@ -113,7 +129,8 @@ public final class CheckChannelService extends IntentService
         Cursor cursor = database.query(ChannelsContract.TABLE_NAME, null, selection, selectionArgs, null, null, null);
         int rowsCount = cursor.getCount();
         cursor.close();
-        if (rowsCount != 0) {
+        if (rowsCount != 0)
+        {
             throw new ChannelAlreadyExistException();
         }
     }

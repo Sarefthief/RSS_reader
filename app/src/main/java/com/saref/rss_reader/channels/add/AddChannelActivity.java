@@ -12,6 +12,7 @@ public final class AddChannelActivity extends AppCompatActivity
     public static final String ADD_CHANNEL_ERROR = "ADD_CHANNEL_ERROR";
 
     private AddChannelScreen addChannelScreen;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState)
     {

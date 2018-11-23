@@ -23,8 +23,7 @@ public class RssReaderDbHelper extends SQLiteOpenHelper
                     NewsContract.COLUMN_NAME_DESCRIPTION + " TEXT," +
                     NewsContract.COLUMN_NAME_DATE + " TEXT," +
                     NewsContract.COLUMN_NAME_CHANNEL_ID + " INTEGER NOT NULL," +
-                    "FOREIGN KEY(" + NewsContract.COLUMN_NAME_CHANNEL_ID + ") REFERENCES " + ChannelsContract.TABLE_NAME + "(" + NewsContract._ID + ")" + ")"
-            ;
+                    "FOREIGN KEY(" + NewsContract.COLUMN_NAME_CHANNEL_ID + ") REFERENCES " + ChannelsContract.TABLE_NAME + "(" + NewsContract._ID + ")" + ")";
 
     private static final String SQL_DELETE_CHANNELS =
             "DROP TABLE IF EXISTS " + ChannelsContract.TABLE_NAME;

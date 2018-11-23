@@ -8,7 +8,7 @@ public final class Channel implements Parcelable
     private String title;
     private String link;
 
-    public Channel(final String title,final String link)
+    public Channel(final String title, final String link)
     {
         this.title = title;
         this.link = link;
@@ -46,7 +46,7 @@ public final class Channel implements Parcelable
     @Override
     public void writeToParcel(Parcel parcel, int i)
     {
-        parcel.writeStringArray(new String[] { title, link});
+        parcel.writeStringArray(new String[]{title, link});
     }
 
     public String getTitle()

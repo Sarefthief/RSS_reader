@@ -64,18 +64,23 @@ public final class LoadNewsFromDatabaseService extends IntentService
         int channelId = getChannelId(link);
         String[] selectionArgs = {String.valueOf(channelId)};
 
-        try {
+        try
+        {
             cursor = database.query(NewsContract.TABLE_NAME, projection, selection, selectionArgs, null, null, NewsContract._ID + " DESC");
-        } catch (SQLiteException e) {
+        }
+        catch (SQLiteException e)
+        {
 
         }
-        if (null != cursor) {
+        if (null != cursor)
+        {
             final int titleColIndex = cursor.getColumnIndex(projection[0]);
             final int linkColIndex = cursor.getColumnIndex(projection[1]);
             final int descriptionColIndex = cursor.getColumnIndex(projection[2]);
             final int dateColIndex = cursor.getColumnIndex(projection[3]);
 
-            while (cursor.moveToNext()) {
+            while (cursor.moveToNext())
+            {
                 newsList.add(new FeedItem(cursor.getString(titleColIndex), cursor.getString(linkColIndex), cursor.getString(descriptionColIndex), cursor.getString(dateColIndex)));
             }
             cursor.close();
@@ -87,15 +92,21 @@ public final class LoadNewsFromDatabaseService extends IntentService
     {
         final String selection = ChannelsContract.COLUMN_NAME_LINK + " = ?";
         final String[] channelSelectionArgs = {link};
-        final Cursor cursor;
+        Cursor cursor = null;
         int channelId = -1;
-        try {
+        try
+        {
             cursor = database.query(ChannelsContract.TABLE_NAME, null, selection, channelSelectionArgs, null, null, null);
             cursor.moveToNext();
             channelId = cursor.getInt(cursor.getColumnIndex(ChannelsContract._ID));
-            cursor.close();
-        } catch (SQLiteException e) {
+        }
+        catch (SQLiteException e)
+        {
 
+        }
+        if (null != cursor)
+        {
+            cursor.close();
         }
 
         return channelId;

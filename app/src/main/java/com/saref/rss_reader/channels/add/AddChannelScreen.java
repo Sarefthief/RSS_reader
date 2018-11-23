@@ -32,11 +32,13 @@ final class AddChannelScreen implements LifeCycleInterface
         @Override
         public void onReceive(final Context context, final Intent intent)
         {
-            if (AddChannelActivity.ADD_CHANNEL_ERROR.equals(intent.getAction())){
+            if (AddChannelActivity.ADD_CHANNEL_ERROR.equals(intent.getAction()))
+            {
                 showToast(intent.getStringExtra(AddChannelActivity.ADD_CHANNEL_ERROR));
                 isClicked = false;
             }
-            if (ChannelsActivity.ADD_CHANNEL_MESSAGE.equals(intent.getAction())){
+            if (ChannelsActivity.ADD_CHANNEL_MESSAGE.equals(intent.getAction()))
+            {
                 activity.setResult(Activity.RESULT_OK, intent);
                 activity.finish();
             }
@@ -58,16 +60,23 @@ final class AddChannelScreen implements LifeCycleInterface
             @Override
             public void onClick(final View view)
             {
-                if (!isClicked) {
-                    try {
+                if (!isClicked)
+                {
+                    try
+                    {
                         final URL url = new URL(channelURL.getText().toString());
-                        if (Patterns.WEB_URL.matcher(channelURL.getText().toString()).matches()) {
+                        if (Patterns.WEB_URL.matcher(channelURL.getText().toString()).matches())
+                        {
                             isClicked = true;
                             activity.startService(CheckChannelService.getCheckChannelServiceIntent(activity, new Channel("", url.toString())));
-                        } else {
+                        }
+                        else
+                        {
                             throw new MalformedURLException();
                         }
-                    } catch (MalformedURLException e) {
+                    }
+                    catch (MalformedURLException e)
+                    {
                         isClicked = false;
                         channelURL.setError("Test");
                     }
@@ -80,6 +89,7 @@ final class AddChannelScreen implements LifeCycleInterface
     {
         Toast.makeText(activity, toastText, Toast.LENGTH_LONG).show();
     }
+
     @Override
     public void onResume()
     {

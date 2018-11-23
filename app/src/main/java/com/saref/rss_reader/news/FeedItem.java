@@ -10,7 +10,7 @@ public final class FeedItem implements Parcelable
     private String description;
     private String date;
 
-    public FeedItem(final String title,final String link,final String description, final String date)
+    public FeedItem(final String title, final String link, final String description, final String date)
     {
         this.title = title;
         this.link = link;
@@ -77,7 +77,7 @@ public final class FeedItem implements Parcelable
     @Override
     public void writeToParcel(final Parcel parcel, final int i)
     {
-        parcel.writeStringArray(new String[] { title, link, description, date });
+        parcel.writeStringArray(new String[]{title, link, description, date});
     }
 
     public static final Parcelable.Creator<FeedItem> CREATOR = new Parcelable.Creator<FeedItem>()

@@ -54,7 +54,8 @@ public final class FeedParserService extends IntentService
     @Override
     protected void onHandleIntent(final Intent intent)
     {
-        if (null != intent.getExtras()) {
+        if (null != intent.getExtras())
+        {
             parseFeed(intent.getStringExtra(NewsActivity.CHANNEL_LINK_EXTRA));
         }
     }
@@ -69,23 +70,33 @@ public final class FeedParserService extends IntentService
     private void parseFeed(final String link)
     {
         ArrayList<FeedItem> itemList;
-        try {
+        try
+        {
             final FeedParser parser = new FeedParser();
             final URL url = new URL(link);
             final HttpURLConnection connection = ConnectionEstablishment.openConnection(url);
             final InputStream inputStream = connection.getInputStream();
-            try {
+            try
+            {
                 itemList = parser.parse(inputStream);
                 checkNewsCountToSave(itemList, link);
-            } finally {
+            }
+            finally
+            {
                 inputStream.close();
                 connection.disconnect();
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
 
-        } catch (XmlPullParserException e) {
+        }
+        catch (XmlPullParserException e)
+        {
 
-        } catch (WrongXmlTypeException e) {
+        }
+        catch (WrongXmlTypeException e)
+        {
 
         }
     }
@@ -93,7 +104,8 @@ public final class FeedParserService extends IntentService
     private void checkNewsCountToSave(ArrayList<FeedItem> itemList, final String link)
     {
         int newsToWriteCount = itemList.size();
-        if (newsToWriteCount > NewsContract.MAX_ROWS_COUNT) {
+        if (newsToWriteCount > NewsContract.MAX_ROWS_COUNT)
+        {
             newsToWriteCount -= newsToWriteCount - NewsContract.MAX_ROWS_COUNT;
         }
 
@@ -101,13 +113,16 @@ public final class FeedParserService extends IntentService
         final Cursor cursor = getAllNewsOfChannelCursor(channelId);
         cursor.moveToNext();
         int rowsCount = 0;
-        if (0 != cursor.getCount()) {
+        if (0 != cursor.getCount())
+        {
             rowsCount = cursor.getCount();
             final int linkColIndex = cursor.getColumnIndex(NewsContract.COLUMN_NAME_LINK);
             String linkToCheck = cursor.getString(linkColIndex);
 
-            for (int i = 0; i <= newsToWriteCount - 1; i++) {
-                if (linkToCheck.equals(itemList.get(i).getLink())) {
+            for (int i = 0; i <= newsToWriteCount - 1; i++)
+            {
+                if (linkToCheck.equals(itemList.get(i).getLink()))
+                {
                     newsToWriteCount = i;
                     break;
                 }
@@ -115,9 +130,12 @@ public final class FeedParserService extends IntentService
         }
         cursor.close();
 
-        if (newsToWriteCount == itemList.size()) {
+        if (newsToWriteCount == itemList.size())
+        {
             sendBroadcast(itemList, link);
-        } else if (0 != newsToWriteCount) {
+        }
+        else if (0 != newsToWriteCount)
+        {
             itemList = new ArrayList<>(itemList.subList(0, newsToWriteCount));
             sendBroadcast(itemList, link);
         }
@@ -129,25 +147,30 @@ public final class FeedParserService extends IntentService
     {
         ContentValues values;
         int sumOfRows = rowsInDatabase + itemList.size();
-        if (sumOfRows > NewsContract.MAX_ROWS_COUNT) {
+        if (sumOfRows > NewsContract.MAX_ROWS_COUNT)
+        {
             deleteExtraRows(sumOfRows - NewsContract.MAX_ROWS_COUNT, channelId);
         }
-        for (int i = itemList.size() - 1; i >= 0; i--) {
+        for (int i = itemList.size() - 1; i >= 0; i--)
+        {
             values = new ContentValues();
             values.put(NewsContract.COLUMN_NAME_TITLE, itemList.get(i).getTitle());
             values.put(NewsContract.COLUMN_NAME_LINK, itemList.get(i).getLink());
             values.put(NewsContract.COLUMN_NAME_DESCRIPTION, itemList.get(i).getDescription());
             values.put(NewsContract.COLUMN_NAME_DATE, itemList.get(i).getDate());
             values.put(NewsContract.COLUMN_NAME_CHANNEL_ID, channelId);
-            try {
+            try
+            {
                 database.insertOrThrow(NewsContract.TABLE_NAME, null, values);
-            } catch (SQLiteException e) {
+            }
+            catch (SQLiteException e)
+            {
 
             }
         }
     }
 
-    private void deleteExtraRows(final int rowsToDelete,final int channelId)
+    private void deleteExtraRows(final int rowsToDelete, final int channelId)
     {
         final String selection = NewsContract.COLUMN_NAME_CHANNEL_ID + " = ?";
         final String[] newsSelectionArgs = {String.valueOf(channelId)};
@@ -155,7 +178,8 @@ public final class FeedParserService extends IntentService
 
         Cursor cursor = database.query(NewsContract.TABLE_NAME, null, selection, newsSelectionArgs, null, null, null);
         cursor.moveToNext();
-        for (int i = rowsToDelete - 1; i > 0; i--) {
+        for (int i = rowsToDelete - 1; i > 0; i--)
+        {
             int idToDelete = cursor.getInt(cursor.getColumnIndex(NewsContract._ID));
             String[] selectionArgsToDelete = {String.valueOf(idToDelete)};
             database.delete(NewsContract.TABLE_NAME, selectionToDelete, selectionArgsToDelete);

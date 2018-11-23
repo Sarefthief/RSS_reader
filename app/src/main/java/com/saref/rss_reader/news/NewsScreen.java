@@ -43,24 +43,31 @@ final class NewsScreen implements LifeCycleInterface
         @Override
         public void onReceive(final Context context, final Intent intent)
         {
-            if (NewsActivity.LOAD_FROM_DATABASE_MESSAGE.equals(intent.getAction())) {
-                if (urlToCheck.equals(intent.getStringExtra(NewsActivity.LINK_TO_CHECK))) {
+            if (NewsActivity.LOAD_FROM_DATABASE_MESSAGE.equals(intent.getAction()))
+            {
+                if (urlToCheck.equals(intent.getStringExtra(NewsActivity.LINK_TO_CHECK)))
+                {
                     itemList = intent.getParcelableArrayListExtra(NewsActivity.LOAD_FROM_DATABASE_MESSAGE);
-                    if (0 != itemList.size()) {
+                    if (0 != itemList.size())
+                    {
                         progressBar.setVisibility(View.GONE);
                     }
                     setAdapter();
                     activity.startService(FeedParserService.getParserServiceIntent(activity, urlToCheck));
                 }
             }
-            if (NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE.equals(intent.getAction())) {
-                if (urlToCheck.equals(intent.getStringExtra(NewsActivity.LINK_TO_CHECK))) {
-                    if (0 == itemList.size()) {
+            if (NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE.equals(intent.getAction()))
+            {
+                if (urlToCheck.equals(intent.getStringExtra(NewsActivity.LINK_TO_CHECK)))
+                {
+                    if (0 == itemList.size())
+                    {
                         progressBar.setVisibility(View.GONE);
                     }
                     ArrayList<FeedItem> listToAdd = intent.getParcelableArrayListExtra(NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE);
                     itemList.addAll(0, listToAdd);
-                    if (0 == itemList.size()) {
+                    if (0 == itemList.size())
+                    {
                         listView.setEmptyView(activity.findViewById(R.id.emptyNewsList));
                     }
                     setAdapter();
@@ -73,7 +80,8 @@ final class NewsScreen implements LifeCycleInterface
     {
         adapter = new NewsAdapter(activity, itemList);
         listView.setAdapter(adapter);
-        if (null != state) {
+        if (null != state)
+        {
             listView.onRestoreInstanceState(state);
         }
     }
@@ -83,7 +91,8 @@ final class NewsScreen implements LifeCycleInterface
     {
         LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(NewsActivity.LOAD_FROM_DATABASE_MESSAGE));
         LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE));
-        if (adapter != null) {
+        if (adapter != null)
+        {
             adapter.changeClickState();
         }
     }

@@ -30,19 +30,23 @@ final class ArticleDetailsScreen implements LifeCycleInterface
         final WebView description = activity.findViewById(R.id.articleDescription);
         final Button linkButton = activity.findViewById(R.id.articleLink);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        {
             description.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-        } else {
+        }
+        else
+        {
             description.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
-        description.loadData(feedItem.getDescription(),"text/html; charset=utf-8", "utf-8");
+        description.loadData(feedItem.getDescription(), "text/html; charset=utf-8", "utf-8");
         title.setText(feedItem.getTitle());
         linkButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                if(!isClicked){
+                if (!isClicked)
+                {
                     isClicked = true;
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(feedItem.getLink()));
                     activity.startActivity(browserIntent);

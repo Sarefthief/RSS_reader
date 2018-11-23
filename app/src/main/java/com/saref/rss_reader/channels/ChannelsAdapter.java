@@ -20,7 +20,7 @@ public final class ChannelsAdapter extends ArrayAdapter<Channel>
     private Activity activity;
     private boolean isClicked = false;
 
-    ChannelsAdapter(final Activity activity,final ArrayList<Channel> channelsList)
+    ChannelsAdapter(final Activity activity, final ArrayList<Channel> channelsList)
     {
         super(activity, 0, channelsList);
         this.channelsList = channelsList;
@@ -31,20 +31,24 @@ public final class ChannelsAdapter extends ArrayAdapter<Channel>
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull final ViewGroup parent)
     {
-        if (convertView == null) {
+        if (convertView == null)
+        {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_channels, parent, false);
         }
         final TextView channelTitle = convertView.findViewById(R.id.channelTitle);
         final TextView channelLink = convertView.findViewById(R.id.channelLink);
 
 
-        convertView.setOnClickListener(new View.OnClickListener() {
+        convertView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-                if (!isClicked) {
+            public void onClick(View view)
+            {
+                if (!isClicked)
+                {
                     Channel selectedElement = channelsList.get(position);
                     isClicked = true;
-                    activity.startActivity(NewsActivity.getNewsScreenActivityIntent(activity,selectedElement.getLink()));
+                    activity.startActivity(NewsActivity.getNewsScreenActivityIntent(activity, selectedElement.getLink()));
                 }
             }
         });

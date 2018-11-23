@@ -32,15 +32,18 @@ final class FeedParser
         final ArrayList<FeedItem> feedItems = new ArrayList<>();
         checkXML(parser);
 
-        while (XmlPullParser.END_DOCUMENT != parser.next()) {
+        while (XmlPullParser.END_DOCUMENT != parser.next())
+        {
             int eventType = parser.getEventType();
-
             String name = parser.getName();
             if (null == name)
+            {
                 continue;
-
-            if (XmlPullParser.START_TAG == eventType) {
-                if (RSS_ITEM_NAME.equalsIgnoreCase(name) || ATOM_ITEM_NAME.equalsIgnoreCase(name)) {
+            }
+            if (XmlPullParser.START_TAG == eventType)
+            {
+                if (RSS_ITEM_NAME.equalsIgnoreCase(name) || ATOM_ITEM_NAME.equalsIgnoreCase(name))
+                {
                     feedItems.add(readItem(parser));
                 }
             }
@@ -64,24 +67,35 @@ final class FeedParser
         String date = "";
 
         parser.next();
-        while (!RSS_ITEM_NAME.equalsIgnoreCase(parser.getName()) && !ATOM_ITEM_NAME.equalsIgnoreCase(parser.getName())) {
-            if (XmlPullParser.START_TAG != parser.getEventType()) {
+        while (!RSS_ITEM_NAME.equalsIgnoreCase(parser.getName()) && !ATOM_ITEM_NAME.equalsIgnoreCase(parser.getName()))
+        {
+            if (XmlPullParser.START_TAG != parser.getEventType())
+            {
                 parser.next();
                 continue;
             }
             String name = parser.getName();
 
-            if (null != name && XmlPullParser.START_TAG == parser.getEventType()) {
-                if (TITLE_NAME.equalsIgnoreCase(name)) {
+            if (null != name && XmlPullParser.START_TAG == parser.getEventType())
+            {
+                if (TITLE_NAME.equalsIgnoreCase(name))
+                {
                     title = readText(parser);
-                } else if (LINK_NAME.equalsIgnoreCase(name)) {
+                }
+                else if (LINK_NAME.equalsIgnoreCase(name))
+                {
                     link = parser.getAttributeValue(null, "href");
-                    if (null == link) {
+                    if (null == link)
+                    {
                         link = readText(parser);
                     }
-                } else if (RSS_DESCRIPTION_NAME.equalsIgnoreCase(name) || ATOM_DESCRIPTION_NAME.equalsIgnoreCase(name)) {
+                }
+                else if (RSS_DESCRIPTION_NAME.equalsIgnoreCase(name) || ATOM_DESCRIPTION_NAME.equalsIgnoreCase(name))
+                {
                     description = readText(parser);
-                } else if (RSS_DATE_NAME.equalsIgnoreCase(name) || ATOM_DATE_NAME.equalsIgnoreCase(name)){
+                }
+                else if (RSS_DATE_NAME.equalsIgnoreCase(name) || ATOM_DATE_NAME.equalsIgnoreCase(name))
+                {
                     date = readText(parser);
                 }
             }
@@ -94,7 +108,8 @@ final class FeedParser
     private String readText(final XmlPullParser parser) throws XmlPullParserException, IOException
     {
         String result = "";
-        if (XmlPullParser.TEXT == parser.next()) {
+        if (XmlPullParser.TEXT == parser.next())
+        {
             result = parser.getText();
             parser.nextTag();
         }
@@ -111,16 +126,19 @@ final class FeedParser
         boolean isRss = false;
         String name;
 
-        for (int i = 0; i < QUANTITY_OF_TAGS_TO_CHECK; i++) {
+        for (int i = 0; i < QUANTITY_OF_TAGS_TO_CHECK; i++)
+        {
             name = parser.getName();
-            if (RSS_PARENT_TAG_NAME.equalsIgnoreCase(name) || ATOM_PARENT_TAG_NAME.equalsIgnoreCase(name)) {
+            if (RSS_PARENT_TAG_NAME.equalsIgnoreCase(name) || ATOM_PARENT_TAG_NAME.equalsIgnoreCase(name))
+            {
                 isRss = true;
                 break;
             }
             parser.next();
         }
 
-        if (!isRss) {
+        if (!isRss)
+        {
             throw new WrongXmlTypeException();
         }
     }

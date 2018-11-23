@@ -20,7 +20,7 @@ public class NewsAdapter extends ArrayAdapter<FeedItem>
     private final Activity activity;
     private boolean isClicked = false;
 
-    NewsAdapter(final Activity activity,final ArrayList<FeedItem> news)
+    NewsAdapter(final Activity activity, final ArrayList<FeedItem> news)
     {
         super(activity, 0, news);
         itemList = news;
@@ -31,18 +31,22 @@ public class NewsAdapter extends ArrayAdapter<FeedItem>
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull final ViewGroup parent)
     {
-        if (convertView == null) {
+        if (convertView == null)
+        {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_news, parent, false);
         }
         final TextView newsTitle = convertView.findViewById(R.id.newsTitle);
         final TextView newsDescription = convertView.findViewById(R.id.newsDescription);
-        convertView.setOnClickListener(new View.OnClickListener() {
+        convertView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-                if (!isClicked) {
+            public void onClick(View view)
+            {
+                if (!isClicked)
+                {
                     FeedItem selectedElement = itemList.get(position);
                     isClicked = true;
-                    activity.startActivity(ArticleDetailsActivity.getArticleDetailsActivityIntent(activity,selectedElement));
+                    activity.startActivity(ArticleDetailsActivity.getArticleDetailsActivityIntent(activity, selectedElement));
                 }
             }
         });
