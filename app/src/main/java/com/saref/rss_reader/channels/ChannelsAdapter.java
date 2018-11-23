@@ -10,11 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.saref.rss_reader.R;
-import com.saref.rss_reader.news.NewsScreenActivity;
+import com.saref.rss_reader.news.NewsActivity;
 
 import java.util.ArrayList;
 
-public class ChannelsAdapter extends ArrayAdapter<Channel>
+public final class ChannelsAdapter extends ArrayAdapter<Channel>
 {
     private ArrayList<Channel> channelsList;
     private Activity activity;
@@ -29,7 +29,7 @@ public class ChannelsAdapter extends ArrayAdapter<Channel>
 
     @NonNull
     @Override
-    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent)
+    public View getView(final int position, @Nullable View convertView, @NonNull final ViewGroup parent)
     {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_channels, parent, false);
@@ -44,14 +44,14 @@ public class ChannelsAdapter extends ArrayAdapter<Channel>
                 if (!isClicked) {
                     Channel selectedElement = channelsList.get(position);
                     isClicked = true;
-                    activity.startActivity(NewsScreenActivity.getNewsScreenActivityIntent(activity,selectedElement.getLink()));
+                    activity.startActivity(NewsActivity.getNewsScreenActivityIntent(activity,selectedElement.getLink()));
                 }
             }
         });
 
         final Channel channel = channelsList.get(position);
         channelTitle.setText(channel.getTitle());
-        channelLink.setText(channel.getLink().toString());
+        channelLink.setText(channel.getLink());
 
         return convertView;
     }

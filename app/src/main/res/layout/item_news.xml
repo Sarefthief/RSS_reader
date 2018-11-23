@@ -12,6 +12,8 @@
         android:layout_alignParentLeft="true"
         />
 
+
+
     <TextView
         android:id="@+id/newsDescription"
         android:layout_width="wrap_content"

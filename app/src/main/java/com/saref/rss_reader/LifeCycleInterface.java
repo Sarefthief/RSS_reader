@@ -2,7 +2,7 @@ package com.saref.rss_reader;
 
 public interface LifeCycleInterface
 {
-    public void onResume();
+    void onResume();
 
-    public void onPause();
+    void onPause();
 }

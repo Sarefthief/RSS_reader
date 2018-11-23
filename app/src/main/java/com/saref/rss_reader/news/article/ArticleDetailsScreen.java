@@ -26,9 +26,9 @@ final class ArticleDetailsScreen implements LifeCycleInterface
 
     private void showArticle(final FeedItem feedItem)
     {
-        TextView title = activity.findViewById(R.id.articleTitle);
-        WebView description = activity.findViewById(R.id.articleDescription);
-        Button linkButton = activity.findViewById(R.id.articleLink);
+        final TextView title = activity.findViewById(R.id.articleTitle);
+        final WebView description = activity.findViewById(R.id.articleDescription);
+        final Button linkButton = activity.findViewById(R.id.articleLink);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             description.setLayerType(View.LAYER_TYPE_HARDWARE, null);

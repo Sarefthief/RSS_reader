@@ -2,14 +2,15 @@ package com.saref.rss_reader.channels.add;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.saref.rss_reader.R;
 
-public class AddChannelActivity extends AppCompatActivity
+public final class AddChannelActivity extends AppCompatActivity
 {
+    public static final String ADD_CHANNEL_ERROR = "ADD_CHANNEL_ERROR";
+
     private AddChannelScreen addChannelScreen;
     @Override
     protected void onCreate(final Bundle savedInstanceState)
@@ -31,4 +32,11 @@ public class AddChannelActivity extends AppCompatActivity
         addChannelScreen.onResume();
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        setResult(RESULT_CANCELED);
+        finish();
+    }
 }

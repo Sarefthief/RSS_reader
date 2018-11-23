@@ -7,21 +7,20 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.saref.rss_reader.R;
 
-import java.net.URL;
-
-public final class NewsScreenActivity extends AppCompatActivity
+public final class NewsActivity extends AppCompatActivity
 {
-    public static final String SEND_ITEM_LIST_MESSAGE = "SEND_ITEM_LIST_MESSAGE";
-    public static final String LIST_NAME = "LIST_NAME";
+    public static final String ADD_NEWS_FROM_PARSER_MESSAGE = "ADD_NEWS_FROM_PARSER_MESSAGE";
+    public static final String LOAD_FROM_DATABASE_MESSAGE = "LOAD_FROM_DATABASE_MESSAGE";
+    public static final String LINK_TO_CHECK = "LINK_TO_CHECK";
     public static final String LIST_VIEW_STATE = "LIST_VIEW_STATE";
-    public static final String NEWS_SCREEN_ACTIVITY_EXTRA = "NEWS_SCREEN_ACTIVITY_EXTRA";
+    public static final String CHANNEL_LINK_EXTRA = "CHANNEL_LINK_EXTRA";
 
     private NewsScreen newsScreen;
 
-    public static Intent getNewsScreenActivityIntent(final Activity activity, final URL url)
+    public static Intent getNewsScreenActivityIntent(final Activity activity, final String url)
     {
-        Intent intent = new Intent(activity, NewsScreenActivity.class);
-        intent.putExtra(NEWS_SCREEN_ACTIVITY_EXTRA, url);
+        Intent intent = new Intent(activity, NewsActivity.class);
+        intent.putExtra(CHANNEL_LINK_EXTRA, url);
         return intent;
     }
 
@@ -31,7 +30,7 @@ public final class NewsScreenActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_screen);
         if(null != getIntent().getExtras()){
-            newsScreen = new NewsScreen(this,(URL) getIntent().getExtras().get(NEWS_SCREEN_ACTIVITY_EXTRA));
+            newsScreen = new NewsScreen(this, getIntent().getStringExtra(CHANNEL_LINK_EXTRA));
         }
 
         if (null != savedInstanceState){

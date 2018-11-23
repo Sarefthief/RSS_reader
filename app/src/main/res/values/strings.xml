@@ -5,4 +5,7 @@
     <string name="listIsEmpty">Список пуст</string>
     <string name="rssChannelEnterHint">Введите адрес RSS канала</string>
     <string name="addChannelButton">Добавить</string>
+    <string name="channelIsAlreadyExistsError">Данный канал уже существует</string>
+    <string name="notRssOrAtomXmlError">По данному адресу, не обнаружена RSS или ATOM лента</string>
+    <string name="channelWriteSqlError">Ошибка записи в базу данных</string>
 </resources>

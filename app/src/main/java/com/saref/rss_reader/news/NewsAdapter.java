@@ -17,10 +17,10 @@ import java.util.ArrayList;
 public class NewsAdapter extends ArrayAdapter<FeedItem>
 {
     private ArrayList<FeedItem> itemList;
-    private Activity activity;
+    private final Activity activity;
     private boolean isClicked = false;
 
-    NewsAdapter(Activity activity, ArrayList<FeedItem> news)
+    NewsAdapter(final Activity activity,final ArrayList<FeedItem> news)
     {
         super(activity, 0, news);
         itemList = news;
@@ -29,7 +29,7 @@ public class NewsAdapter extends ArrayAdapter<FeedItem>
 
     @NonNull
     @Override
-    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent)
+    public View getView(final int position, @Nullable View convertView, @NonNull final ViewGroup parent)
     {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_news, parent, false);
@@ -58,4 +58,5 @@ public class NewsAdapter extends ArrayAdapter<FeedItem>
     {
         isClicked = false;
     }
+
 }

@@ -10,28 +10,36 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.saref.rss_reader.LifeCycleInterface;
 import com.saref.rss_reader.R;
 import com.saref.rss_reader.channels.Channel;
-import com.saref.rss_reader.channels.ChannelsScreenActivity;
+import com.saref.rss_reader.channels.ChannelsActivity;
 import com.saref.rss_reader.channels.parser.CheckChannelService;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-class AddChannelScreen implements LifeCycleInterface
+final class AddChannelScreen implements LifeCycleInterface
 {
     private Activity activity;
     private boolean isClicked = false;
+
 
     private BroadcastReceiver receiver = new BroadcastReceiver()
     {
         @Override
         public void onReceive(final Context context, final Intent intent)
         {
-            activity.setResult(ChannelsScreenActivity.ADD_CHANNEL_REQUEST_CODE, intent);
-            activity.finish();
+            if (AddChannelActivity.ADD_CHANNEL_ERROR.equals(intent.getAction())){
+                showToast(intent.getStringExtra(AddChannelActivity.ADD_CHANNEL_ERROR));
+                isClicked = false;
+            }
+            if (ChannelsActivity.ADD_CHANNEL_MESSAGE.equals(intent.getAction())){
+                activity.setResult(Activity.RESULT_OK, intent);
+                activity.finish();
+            }
         }
     };
 
@@ -48,14 +56,14 @@ class AddChannelScreen implements LifeCycleInterface
         addChannelButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View view)
+            public void onClick(final View view)
             {
                 if (!isClicked) {
                     try {
                         final URL url = new URL(channelURL.getText().toString());
                         if (Patterns.WEB_URL.matcher(channelURL.getText().toString()).matches()) {
                             isClicked = true;
-                            activity.startService(CheckChannelService.getCheckChannelServiceIntent(activity, url));
+                            activity.startService(CheckChannelService.getCheckChannelServiceIntent(activity, new Channel("", url.toString())));
                         } else {
                             throw new MalformedURLException();
                         }
@@ -68,10 +76,15 @@ class AddChannelScreen implements LifeCycleInterface
         });
     }
 
+    private void showToast(String toastText)
+    {
+        Toast.makeText(activity, toastText, Toast.LENGTH_LONG).show();
+    }
     @Override
     public void onResume()
     {
-        LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(ChannelsScreenActivity.ADD_CHANNEL_MESSAGE));
+        LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(ChannelsActivity.ADD_CHANNEL_MESSAGE));
+        LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(AddChannelActivity.ADD_CHANNEL_ERROR));
         isClicked = false;
     }
 

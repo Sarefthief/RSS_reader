@@ -12,20 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".news.NewsScreenActivity">
+        <activity android:name="com.saref.rss_reader.news.NewsActivity">
 
         </activity>
-        <activity android:name=".news.article.ArticleDetailsActivity" />
-        <activity android:name=".channels.ChannelsScreenActivity">
+        <activity android:name="com.saref.rss_reader.news.article.ArticleDetailsActivity" />
+        <activity android:name="com.saref.rss_reader.channels.ChannelsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".channels.add.AddChannelActivity" />
+        <activity android:name="com.saref.rss_reader.channels.add.AddChannelActivity" />
 
-        <service android:name=".news.parser.FeedParserService" />
-        <service android:name=".channels.parser.CheckChannelService" />
+        <service android:name="com.saref.rss_reader.news.parser.FeedParserService" />
+        <service android:name="com.saref.rss_reader.channels.parser.CheckChannelService" />
+        <service android:name="com.saref.rss_reader.news.LoadNewsFromDatabaseService" />
+        <service android:name="com.saref.rss_reader.channels.LoadChannelsFromDatabaseService" />
 
 
     </application>
