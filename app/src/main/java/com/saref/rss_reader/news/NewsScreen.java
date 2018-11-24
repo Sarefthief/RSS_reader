@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 
 import com.saref.rss_reader.LifeCycleInterface;
 import com.saref.rss_reader.R;
+import com.saref.rss_reader.channels.ChannelsActivity;
 import com.saref.rss_reader.news.parser.FeedParserService;
 
 import java.util.ArrayList;
@@ -59,15 +60,20 @@ final class NewsScreen implements LifeCycleInterface
             {
                 if (channelLink.equals(intent.getStringExtra(NewsActivity.LINK_TO_CHECK)))
                 {
+                    progressBar.setVisibility(View.GONE);
                     final ArrayList<FeedItem> listToAdd = intent.getParcelableArrayListExtra(NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE);
                     itemList.addAll(0, listToAdd);
                     if (0 == itemList.size())
                     {
-                        progressBar.setVisibility(View.GONE);
                         listView.setEmptyView(activity.findViewById(R.id.emptyNewsList));
                     }
                     setAdapter();
                 }
+            }
+            if (NewsActivity.CHANNEL_IS_DELETED.equals(intent.getAction()))
+            {
+                activity.finish();
+                activity.startActivity(ChannelsActivity.getChannelsActivityIntent(activity));
             }
         }
     };
@@ -87,6 +93,7 @@ final class NewsScreen implements LifeCycleInterface
     {
         LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(NewsActivity.LOAD_FROM_DATABASE_MESSAGE));
         LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE));
+        LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(NewsActivity.CHANNEL_IS_DELETED));
     }
 
     @Override

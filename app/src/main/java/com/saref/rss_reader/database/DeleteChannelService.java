@@ -64,6 +64,6 @@ public class DeleteChannelService extends IntentService
 
     private void sendBroadcast()
     {
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE));
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(NewsActivity.CHANNEL_IS_DELETED));
     }
 }
