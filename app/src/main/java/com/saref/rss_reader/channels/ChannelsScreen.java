@@ -17,7 +17,6 @@ import java.util.ArrayList;
 final class ChannelsScreen implements LifeCycleInterface
 {
     private final Activity activity;
-    private ChannelsAdapter adapter;
     private ArrayList<Channel> channelsList = new ArrayList<>();
 
     ChannelsScreen(final Activity activity)
@@ -37,7 +36,7 @@ final class ChannelsScreen implements LifeCycleInterface
 
     private void showChannels()
     {
-        adapter = new ChannelsAdapter(activity, channelsList);
+        ChannelsAdapter adapter = new ChannelsAdapter(activity, channelsList);
         final ListView channelListView = activity.findViewById(R.id.channelsList);
         channelListView.setAdapter(adapter);
         if (0 == channelsList.size())
@@ -46,20 +45,11 @@ final class ChannelsScreen implements LifeCycleInterface
         }
     }
 
-    public void addChannel(final Channel channel)
-    {
-        adapter.add(channel);
-    }
-
     @Override
     public void onResume()
     {
         LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(ChannelsActivity.LOAD_CHANNELS_LIST_MESSAGE));
         activity.startService(LoadChannelsFromDatabaseService.getLoadChannelsServiceIntent(activity));
-        if (null != adapter)
-        {
-            adapter.changeClickState();
-        }
     }
 
     @Override

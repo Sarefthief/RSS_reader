@@ -110,7 +110,7 @@ public final class CheckChannelService extends IntentService
         try
         {
             database.insertOrThrow(ChannelsContract.TABLE_NAME, null, values);
-            sendBroadcast(channel);
+            sendBroadcast();
         }
         catch (SQLiteException e)
         {
@@ -133,11 +133,9 @@ public final class CheckChannelService extends IntentService
         }
     }
 
-    private void sendBroadcast(final Channel channel)
+    private void sendBroadcast()
     {
-        final Intent intent = new Intent(ChannelsActivity.ADD_CHANNEL_MESSAGE);
-        intent.putExtra(ChannelsActivity.ADD_CHANNEL_MESSAGE, channel);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ChannelsActivity.ADD_CHANNEL_MESSAGE));
     }
 
     private void sendErrorBroadcast(final String errorText)

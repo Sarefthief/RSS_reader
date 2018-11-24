@@ -3,6 +3,7 @@
     <string name="articleDetailsButtonName">Перейти к источнику</string>
     <string name="addChannelMenuButton">Добавить канал</string>
     <string name="openSettingsMenuButton">Настройки</string>
+    <string name="deleteChannelMenuButton">Удалить канал</string>
     <string name="listIsEmpty">Список пуст</string>
     <string name="rssChannelEnterHint">Введите адрес RSS канала</string>
     <string name="addChannelButton">Добавить</string>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.saref.rss_reader.R;
+import com.saref.rss_reader.channels.ChannelsActivity;
 
 public final class NewsActivity extends AppCompatActivity
 {
@@ -17,7 +18,7 @@ public final class NewsActivity extends AppCompatActivity
 
     private NewsScreen newsScreen;
 
-    public static Intent getNewsScreenActivityIntent(final Activity activity, final String url)
+    public static Intent getNewsActivityIntent(final Activity activity, final String url)
     {
         Intent intent = new Intent(activity, NewsActivity.class);
         intent.putExtra(CHANNEL_LINK_EXTRA, url);
@@ -51,6 +52,13 @@ public final class NewsActivity extends AppCompatActivity
     {
         super.onPause();
         newsScreen.onPause();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        startActivity(new Intent(this, ChannelsActivity.class));
     }
 
     @Override

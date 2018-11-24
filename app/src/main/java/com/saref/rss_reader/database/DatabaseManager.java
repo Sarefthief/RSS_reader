@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class DatabaseManager
+public final class DatabaseManager
 {
     private AtomicInteger mOpenCounter = new AtomicInteger();
 
@@ -13,8 +13,7 @@ public class DatabaseManager
     private static RssReaderDbHelper dbHelper;
     private SQLiteDatabase mDatabase;
 
-
-    public static synchronized DatabaseManager getInstance(Context context)
+    public static synchronized DatabaseManager getInstance(final Context context)
     {
         if (instance == null)
         {
@@ -31,6 +30,7 @@ public class DatabaseManager
         {
             mDatabase = dbHelper.getWritableDatabase();
         }
+
         return mDatabase;
     }
 
@@ -40,6 +40,7 @@ public class DatabaseManager
         {
             mDatabase = dbHelper.getReadableDatabase();
         }
+
         return mDatabase;
     }
 

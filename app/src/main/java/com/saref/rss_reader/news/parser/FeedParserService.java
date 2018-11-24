@@ -128,12 +128,15 @@ public final class FeedParserService extends IntentService
         }
         cursor.close();
 
-
         if (newsToWriteCount != itemList.size())
         {
             itemList = new ArrayList<>(itemList.subList(0, newsToWriteCount));
         }
-        saveNewsToDatabase(itemList, rowsCount, channelId);
+        if (0 != itemList.size())
+        {
+            saveNewsToDatabase(itemList, rowsCount, channelId);
+        }
+
         sendBroadcast(itemList, link);
     }
 

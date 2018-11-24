@@ -12,15 +12,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.saref.rss_reader.news.NewsActivity" />
-        <activity android:name="com.saref.rss_reader.news.article.ArticleDetailsActivity" />
-        <activity android:name="com.saref.rss_reader.channels.ChannelsActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity
+            android:name="com.saref.rss_reader.news.NewsActivity"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name="com.saref.rss_reader.news.article.ArticleDetailsActivity"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name="com.saref.rss_reader.channels.ChannelsActivity"
+            android:launchMode="singleTask">
+                <intent-filter>
+                    <action android:name="android.intent.action.MAIN" />
+                    <category android:name="android.intent.category.LAUNCHER" />
+                </intent-filter>
         </activity>
-        <activity android:name="com.saref.rss_reader.channels.add.AddChannelActivity" />
+        <activity
+            android:name="com.saref.rss_reader.channels.add.AddChannelActivity"
+            android:launchMode="singleTask"/>
 
         <service android:name="com.saref.rss_reader.news.parser.FeedParserService" />
         <service android:name="com.saref.rss_reader.channels.parser.CheckChannelService" />

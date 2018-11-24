@@ -21,6 +21,13 @@ public class DeleteChannelService extends IntentService
         super("DeleteChannelService");
     }
 
+    public static Intent getDeleteChannelServiceIntent(final Activity activity, final String link)
+    {
+        final Intent intent = new Intent(activity, DeleteChannelService.class);
+        intent.putExtra(DELETE_CHANNEL_EXTRA, link);
+        return intent;
+    }
+
     @Override
     public void onCreate()
     {
@@ -33,13 +40,6 @@ public class DeleteChannelService extends IntentService
     {
         super.onDestroy();
         DatabaseManager.getInstance(this).closeDatabase();
-    }
-
-    public static Intent getDeleteChannelServiceIntent(final Activity activity, final String link)
-    {
-        final Intent intent = new Intent(activity, DeleteChannelService.class);
-        intent.putExtra(DELETE_CHANNEL_EXTRA, link);
-        return intent;
     }
 
     @Override

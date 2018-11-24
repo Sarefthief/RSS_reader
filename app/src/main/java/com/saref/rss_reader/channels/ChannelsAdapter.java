@@ -18,7 +18,6 @@ public final class ChannelsAdapter extends ArrayAdapter<Channel>
 {
     private ArrayList<Channel> channelsList;
     private Activity activity;
-    private boolean isClicked = false;
 
     ChannelsAdapter(final Activity activity, final ArrayList<Channel> channelsList)
     {
@@ -44,12 +43,8 @@ public final class ChannelsAdapter extends ArrayAdapter<Channel>
             @Override
             public void onClick(View view)
             {
-                if (!isClicked)
-                {
-                    Channel selectedElement = channelsList.get(position);
-                    isClicked = true;
-                    activity.startActivity(NewsActivity.getNewsScreenActivityIntent(activity, selectedElement.getLink()));
-                }
+                Channel selectedElement = channelsList.get(position);
+                activity.startActivity(NewsActivity.getNewsActivityIntent(activity, selectedElement.getLink()));
             }
         });
 
@@ -60,8 +55,4 @@ public final class ChannelsAdapter extends ArrayAdapter<Channel>
         return convertView;
     }
 
-    public void changeClickState()
-    {
-        isClicked = false;
-    }
 }

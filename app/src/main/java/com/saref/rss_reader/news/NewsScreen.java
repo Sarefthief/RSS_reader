@@ -23,19 +23,18 @@ final class NewsScreen implements LifeCycleInterface
     private ListView listView;
     private final Activity activity;
     private ArrayList<FeedItem> itemList;
-    private NewsAdapter adapter;
     private final ProgressBar progressBar;
-    private final String urlToCheck;
+    private final String channelLink;
 
     NewsScreen(final Activity activity, final String url)
     {
         this.activity = activity;
-        urlToCheck = url;
+        channelLink = url;
         listView = activity.findViewById(R.id.newsList);
         progressBar = activity.findViewById(R.id.newsListProgressBar);
         progressBar.setVisibility(View.VISIBLE);
 
-        activity.startService(LoadNewsFromDatabaseService.getLoadNewsServiceIntent(activity, urlToCheck));
+        activity.startService(LoadNewsFromDatabaseService.getLoadNewsServiceIntent(activity, channelLink));
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver()
@@ -45,7 +44,7 @@ final class NewsScreen implements LifeCycleInterface
         {
             if (NewsActivity.LOAD_FROM_DATABASE_MESSAGE.equals(intent.getAction()))
             {
-                if (urlToCheck.equals(intent.getStringExtra(NewsActivity.LINK_TO_CHECK)))
+                if (channelLink.equals(intent.getStringExtra(NewsActivity.LINK_TO_CHECK)))
                 {
                     itemList = intent.getParcelableArrayListExtra(NewsActivity.LOAD_FROM_DATABASE_MESSAGE);
                     if (0 != itemList.size())
@@ -53,12 +52,12 @@ final class NewsScreen implements LifeCycleInterface
                         progressBar.setVisibility(View.GONE);
                     }
                     setAdapter();
-                    activity.startService(FeedParserService.getParserServiceIntent(activity, urlToCheck));
+                    activity.startService(FeedParserService.getParserServiceIntent(activity, channelLink));
                 }
             }
             if (NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE.equals(intent.getAction()))
             {
-                if (urlToCheck.equals(intent.getStringExtra(NewsActivity.LINK_TO_CHECK)))
+                if (channelLink.equals(intent.getStringExtra(NewsActivity.LINK_TO_CHECK)))
                 {
                     final ArrayList<FeedItem> listToAdd = intent.getParcelableArrayListExtra(NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE);
                     itemList.addAll(0, listToAdd);
@@ -75,7 +74,7 @@ final class NewsScreen implements LifeCycleInterface
 
     private void setAdapter()
     {
-        adapter = new NewsAdapter(activity, itemList);
+        NewsAdapter adapter = new NewsAdapter(activity, itemList, channelLink);
         listView.setAdapter(adapter);
         if (null != state)
         {
@@ -88,10 +87,6 @@ final class NewsScreen implements LifeCycleInterface
     {
         LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(NewsActivity.LOAD_FROM_DATABASE_MESSAGE));
         LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE));
-        if (adapter != null)
-        {
-            adapter.changeClickState();
-        }
     }
 
     @Override

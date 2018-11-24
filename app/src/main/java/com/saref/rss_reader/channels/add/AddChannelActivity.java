@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.saref.rss_reader.R;
+import com.saref.rss_reader.channels.ChannelsActivity;
 
 public final class AddChannelActivity extends AppCompatActivity
 {
@@ -37,7 +38,6 @@ public final class AddChannelActivity extends AppCompatActivity
     public void onBackPressed()
     {
         super.onBackPressed();
-        setResult(RESULT_CANCELED);
-        finish();
+        startActivity(new Intent(this, ChannelsActivity.class));
     }
 }

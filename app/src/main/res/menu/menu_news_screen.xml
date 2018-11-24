@@ -3,14 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/addChannelMenuButton"
+        android:id="@+id/deleteChannelMenuButton"
         android:title="@string/addChannelMenuButton"
-        app:showAsAction="never"
-        />
-
-    <item
-        android:id="@+id/settingsMenuButton"
-        android:title="@string/openSettingsMenuButton"
         app:showAsAction="never"
         />
 
