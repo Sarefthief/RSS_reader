@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 
 import com.saref.rss_reader.LifeCycleInterface;
 import com.saref.rss_reader.R;
+import com.saref.rss_reader.channels.Channel;
 import com.saref.rss_reader.channels.ChannelsActivity;
 import com.saref.rss_reader.news.parser.FeedParserService;
 
@@ -26,11 +27,13 @@ final class NewsScreen implements LifeCycleInterface
     private ArrayList<FeedItem> itemList;
     private final ProgressBar progressBar;
     private final String channelLink;
+    private Channel channel;
 
-    NewsScreen(final Activity activity, final String url)
+    NewsScreen(final Activity activity, final Channel channel)
     {
         this.activity = activity;
-        channelLink = url;
+        this.channel = channel;
+        channelLink = channel.getLink();
         listView = activity.findViewById(R.id.newsList);
         progressBar = activity.findViewById(R.id.newsListProgressBar);
         progressBar.setVisibility(View.VISIBLE);
@@ -80,7 +83,7 @@ final class NewsScreen implements LifeCycleInterface
 
     private void setAdapter()
     {
-        NewsAdapter adapter = new NewsAdapter(activity, itemList, channelLink);
+        NewsAdapter adapter = new NewsAdapter(activity, itemList, channel);
         listView.setAdapter(adapter);
         if (null != state)
         {

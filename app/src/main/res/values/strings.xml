@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">RSS-reader</string>
+    <string name="app_name">Читалка</string>
+    <string name="articleDetailsActionBarTitle">Подробнее</string>
+    <string name="channelsActionBarTitle">Список каналов</string>
     <string name="articleDetailsButtonName">Перейти к источнику</string>
     <string name="addChannelMenuButton">Добавить канал</string>
     <string name="openSettingsMenuButton">Настройки</string>

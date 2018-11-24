@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.saref.rss_reader.R;
+import com.saref.rss_reader.channels.Channel;
 import com.saref.rss_reader.news.article.ArticleDetailsActivity;
 
 import java.util.ArrayList;
@@ -18,14 +19,14 @@ public class NewsAdapter extends ArrayAdapter<FeedItem>
 {
     private ArrayList<FeedItem> itemList;
     private final Activity activity;
-    private final String channelLink;
+    private final Channel channel;
 
-    NewsAdapter(final Activity activity, final ArrayList<FeedItem> news, final String channelLink)
+    NewsAdapter(final Activity activity, final ArrayList<FeedItem> news, final Channel channel)
     {
         super(activity, 0, news);
         itemList = news;
         this.activity = activity;
-        this.channelLink = channelLink;
+        this.channel = channel;
     }
 
     @NonNull
@@ -44,7 +45,7 @@ public class NewsAdapter extends ArrayAdapter<FeedItem>
             public void onClick(View view)
             {
                 FeedItem selectedElement = itemList.get(position);
-                activity.startActivity(ArticleDetailsActivity.getArticleDetailsActivityIntent(activity, selectedElement, channelLink));
+                activity.startActivity(ArticleDetailsActivity.getArticleDetailsActivityIntent(activity, selectedElement, channel));
             }
         });
 

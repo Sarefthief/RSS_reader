@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import com.saref.rss_reader.R;
 import com.saref.rss_reader.channels.ChannelsActivity;
@@ -20,11 +21,25 @@ public final class AddChannelActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_channel);
         addChannelScreen = new AddChannelScreen(this);
+        if(getSupportActionBar() != null)
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     public static Intent getAddChannelIntent(final Activity activity)
     {
         return new Intent(activity, AddChannelActivity.class);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if (item.getItemId() == android.R.id.home)
+        {
+            startActivity(ChannelsActivity.getChannelsActivityIntent(this));
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

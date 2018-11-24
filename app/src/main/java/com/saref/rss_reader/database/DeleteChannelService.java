@@ -12,7 +12,6 @@ import com.saref.rss_reader.news.NewsActivity;
 public class DeleteChannelService extends IntentService
 {
     public final static String DELETE_CHANNEL_EXTRA = "DELETE_CHANNEL_EXTRA";
-    public final static String DELETION_SUCCESSFUL = "DELETION_SUCCESSFUL";
 
     private SQLiteDatabase database;
 

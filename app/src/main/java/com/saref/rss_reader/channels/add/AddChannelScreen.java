@@ -39,7 +39,7 @@ final class AddChannelScreen implements LifeCycleInterface
             }
             if (ChannelsActivity.ADD_CHANNEL_MESSAGE.equals(intent.getAction()))
             {
-                //activity.startActivity(new Intent(activity,ChannelsActivity.class));
+                activity.startActivity(new Intent(activity,ChannelsActivity.class));
                 activity.finish();
             }
         }

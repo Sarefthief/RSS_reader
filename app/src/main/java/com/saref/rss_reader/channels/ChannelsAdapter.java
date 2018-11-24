@@ -43,8 +43,7 @@ public final class ChannelsAdapter extends ArrayAdapter<Channel>
             @Override
             public void onClick(View view)
             {
-                Channel selectedElement = channelsList.get(position);
-                activity.startActivity(NewsActivity.getNewsActivityIntent(activity, selectedElement.getLink()));
+                activity.startActivity(NewsActivity.getNewsActivityIntent(activity, channelsList.get(position)));
             }
         });
 

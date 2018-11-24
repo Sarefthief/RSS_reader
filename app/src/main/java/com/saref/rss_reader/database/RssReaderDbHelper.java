@@ -8,7 +8,7 @@ import android.os.Build;
 
 public class RssReaderDbHelper extends SQLiteOpenHelper
 {
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
     private static final String DATABASE_NAME = "RssReader.db";
 
     private static final String SQL_CREATE_CHANNELS =
@@ -21,7 +21,7 @@ public class RssReaderDbHelper extends SQLiteOpenHelper
             "CREATE TABLE " + NewsContract.TABLE_NAME + " (" +
                     NewsContract._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     NewsContract.COLUMN_NAME_TITLE + " TEXT," +
-                    NewsContract.COLUMN_NAME_LINK + " TEXT UNIQUE," +
+                    NewsContract.COLUMN_NAME_LINK + " TEXT," +
                     NewsContract.COLUMN_NAME_DESCRIPTION + " TEXT," +
                     NewsContract.COLUMN_NAME_DATE + " TEXT," +
                     NewsContract.COLUMN_NAME_CHANNEL_ID + " INTEGER NOT NULL," +
