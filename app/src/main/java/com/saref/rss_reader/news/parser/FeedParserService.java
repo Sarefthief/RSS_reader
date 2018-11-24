@@ -11,6 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.saref.rss_reader.ConnectionEstablishment;
 import com.saref.rss_reader.database.ChannelsContract;
+import com.saref.rss_reader.database.DatabaseManager;
 import com.saref.rss_reader.database.NewsContract;
 import com.saref.rss_reader.database.RssReaderDbHelper;
 import com.saref.rss_reader.exceptions.WrongXmlTypeException;
@@ -28,7 +29,6 @@ import java.util.ArrayList;
 public final class FeedParserService extends IntentService
 {
     private SQLiteDatabase database;
-    private RssReaderDbHelper dbHelper;
 
     public FeedParserService()
     {
@@ -39,16 +39,14 @@ public final class FeedParserService extends IntentService
     public void onCreate()
     {
         super.onCreate();
-        dbHelper = new RssReaderDbHelper(this);
-        database = dbHelper.getWritableDatabase();
+        database = DatabaseManager.getInstance(this).openWritableDatabase();
     }
 
     @Override
     public void onDestroy()
     {
         super.onDestroy();
-        database.close();
-        dbHelper.close();
+        DatabaseManager.getInstance(this).closeDatabase();
     }
 
     @Override
@@ -130,17 +128,13 @@ public final class FeedParserService extends IntentService
         }
         cursor.close();
 
-        if (newsToWriteCount == itemList.size())
-        {
-            sendBroadcast(itemList, link);
-        }
-        else if (0 != newsToWriteCount)
+
+        if (newsToWriteCount != itemList.size())
         {
             itemList = new ArrayList<>(itemList.subList(0, newsToWriteCount));
-            sendBroadcast(itemList, link);
         }
-
         saveNewsToDatabase(itemList, rowsCount, channelId);
+        sendBroadcast(itemList, link);
     }
 
     private void saveNewsToDatabase(final ArrayList<FeedItem> itemList, final int rowsInDatabase, final int channelId)

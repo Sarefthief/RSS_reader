@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteException;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.saref.rss_reader.database.ChannelsContract;
+import com.saref.rss_reader.database.DatabaseManager;
 import com.saref.rss_reader.database.RssReaderDbHelper;
 
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 public class LoadChannelsFromDatabaseService extends IntentService
 {
     private SQLiteDatabase database;
-    private RssReaderDbHelper dbHelper;
 
     private String[] projection = {
             ChannelsContract.COLUMN_NAME_TITLE,
@@ -37,16 +37,14 @@ public class LoadChannelsFromDatabaseService extends IntentService
     public void onCreate()
     {
         super.onCreate();
-        dbHelper = new RssReaderDbHelper(this);
-        database = dbHelper.getReadableDatabase();
+        database = DatabaseManager.getInstance(this).openReadableDatabase();
     }
 
     @Override
     public void onDestroy()
     {
         super.onDestroy();
-        database.close();
-        dbHelper.close();
+        DatabaseManager.getInstance(this).closeDatabase();
     }
 
     @Override

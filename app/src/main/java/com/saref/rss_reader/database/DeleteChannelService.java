@@ -15,7 +15,6 @@ public class DeleteChannelService extends IntentService
     public final static String DELETION_SUCCESSFUL = "DELETION_SUCCESSFUL";
 
     private SQLiteDatabase database;
-    private RssReaderDbHelper dbHelper;
 
     public DeleteChannelService()
     {
@@ -26,16 +25,14 @@ public class DeleteChannelService extends IntentService
     public void onCreate()
     {
         super.onCreate();
-        dbHelper = new RssReaderDbHelper(this);
-        database = dbHelper.getReadableDatabase();
+        database = DatabaseManager.getInstance(this).openWritableDatabase();
     }
 
     @Override
     public void onDestroy()
     {
         super.onDestroy();
-        database.close();
-        dbHelper.close();
+        DatabaseManager.getInstance(this).closeDatabase();
     }
 
     public static Intent getDeleteChannelServiceIntent(final Activity activity, final String link)

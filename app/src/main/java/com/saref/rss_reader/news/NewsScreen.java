@@ -60,14 +60,11 @@ final class NewsScreen implements LifeCycleInterface
             {
                 if (urlToCheck.equals(intent.getStringExtra(NewsActivity.LINK_TO_CHECK)))
                 {
-                    if (0 == itemList.size())
-                    {
-                        progressBar.setVisibility(View.GONE);
-                    }
                     final ArrayList<FeedItem> listToAdd = intent.getParcelableArrayListExtra(NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE);
                     itemList.addAll(0, listToAdd);
                     if (0 == itemList.size())
                     {
+                        progressBar.setVisibility(View.GONE);
                         listView.setEmptyView(activity.findViewById(R.id.emptyNewsList));
                     }
                     setAdapter();

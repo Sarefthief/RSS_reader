@@ -4,9 +4,14 @@
 
     <item
         android:id="@+id/addChannelMenuButton"
-        android:icon="@drawable/add_channel"
-        android:title="@string/add_channel"
-        app:showAsAction="always"
+        android:title="@string/addChannelMenuButton"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/settingsMenuButton"
+        android:title="@string/openSettingsMenuButton"
+        app:showAsAction="never"
         />
 
 </menu>

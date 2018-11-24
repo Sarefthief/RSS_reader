@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.saref.rss_reader.database.DatabaseManager;
 import com.saref.rss_reader.exceptions.ChannelAlreadyExistException;
 import com.saref.rss_reader.ConnectionEstablishment;
 import com.saref.rss_reader.R;
@@ -30,7 +31,6 @@ public final class CheckChannelService extends IntentService
 {
     public static final String CHECK_CHANNEL_EXTRA_URL = "CHECK_CHANNEL_EXTRA_URL";
     private SQLiteDatabase database;
-    private RssReaderDbHelper dbHelper;
 
     public CheckChannelService()
     {
@@ -48,16 +48,14 @@ public final class CheckChannelService extends IntentService
     public void onCreate()
     {
         super.onCreate();
-        dbHelper = new RssReaderDbHelper(this);
-        database = dbHelper.getWritableDatabase();
+        database = DatabaseManager.getInstance(this).openWritableDatabase();
     }
 
     @Override
     public void onDestroy()
     {
         super.onDestroy();
-        database.close();
-        dbHelper.close();
+        DatabaseManager.getInstance(this).closeDatabase();
     }
 
     @Override
