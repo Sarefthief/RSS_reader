@@ -28,7 +28,7 @@ import java.net.URL;
 
 public final class CheckChannelService extends IntentService
 {
-    public static final String CHECK_CHANNEL_EXTRA_URL = "extra url";
+    public static final String CHECK_CHANNEL_EXTRA_URL = "CHECK_CHANNEL_EXTRA_URL";
     private SQLiteDatabase database;
     private RssReaderDbHelper dbHelper;
 

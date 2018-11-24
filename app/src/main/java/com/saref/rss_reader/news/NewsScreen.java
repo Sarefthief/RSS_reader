@@ -64,7 +64,7 @@ final class NewsScreen implements LifeCycleInterface
                     {
                         progressBar.setVisibility(View.GONE);
                     }
-                    ArrayList<FeedItem> listToAdd = intent.getParcelableArrayListExtra(NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE);
+                    final ArrayList<FeedItem> listToAdd = intent.getParcelableArrayListExtra(NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE);
                     itemList.addAll(0, listToAdd);
                     if (0 == itemList.size())
                     {

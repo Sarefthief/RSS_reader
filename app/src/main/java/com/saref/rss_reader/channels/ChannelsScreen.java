@@ -23,7 +23,6 @@ final class ChannelsScreen implements LifeCycleInterface
     ChannelsScreen(final Activity activity)
     {
         this.activity = activity;
-        activity.startService(LoadChannelsFromDatabaseService.getLoadChannelsServiceIntent(activity));
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver()
@@ -56,6 +55,7 @@ final class ChannelsScreen implements LifeCycleInterface
     public void onResume()
     {
         LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(ChannelsActivity.LOAD_CHANNELS_LIST_MESSAGE));
+        activity.startService(LoadChannelsFromDatabaseService.getLoadChannelsServiceIntent(activity));
         if (null != adapter)
         {
             adapter.changeClickState();
