@@ -18,7 +18,7 @@ public class LoadChannelsFromDatabaseService extends IntentService
 {
     private SQLiteDatabase database;
 
-    private String[] projection = {
+    private final String[] projection = {
             ChannelsContract.COLUMN_NAME_TITLE,
             ChannelsContract.COLUMN_NAME_LINK
     };

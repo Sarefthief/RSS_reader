@@ -18,7 +18,6 @@ import com.saref.rss_reader.alarms.SetAlarmsService;
 import com.saref.rss_reader.channels.Channel;
 import com.saref.rss_reader.channels.ChannelsActivity;
 import com.saref.rss_reader.channels.parser.CheckChannelService;
-import com.saref.rss_reader.alarms.AlarmReceiver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -28,7 +27,6 @@ final class AddChannelScreen implements LifeCycleInterface
     private Activity activity;
     private EditText channelUrlField;
     private boolean isClicked = false;
-
 
     private BroadcastReceiver receiver = new BroadcastReceiver()
     {
@@ -96,7 +94,7 @@ final class AddChannelScreen implements LifeCycleInterface
         });
     }
 
-    private void showToast(String toastText)
+    private void showToast(final String toastText)
     {
         Toast.makeText(activity, toastText, Toast.LENGTH_LONG).show();
     }

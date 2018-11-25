@@ -39,7 +39,7 @@ final class ChannelsScreen implements LifeCycleInterface
 
     private void showChannels()
     {
-        ChannelsAdapter adapter = new ChannelsAdapter(activity, channelsList);
+        final ChannelsAdapter adapter = new ChannelsAdapter(activity, channelsList);
         final ListView channelListView = activity.findViewById(R.id.channelsList);
         channelListView.setAdapter(adapter);
         if (0 == channelsList.size())

@@ -48,8 +48,7 @@ final class ArticleDetailsScreen implements LifeCycleInterface
                 if (!isClicked)
                 {
                     isClicked = true;
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(feedItem.getLink()));
-                    activity.startActivity(browserIntent);
+                    activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(feedItem.getLink())));
                 }
             }
         });

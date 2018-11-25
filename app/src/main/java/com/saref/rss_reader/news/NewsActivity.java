@@ -72,8 +72,12 @@ public final class NewsActivity extends AppCompatActivity
         }
         if (item.getItemId() == R.id.deleteChannelMenuButton)
         {
-            Channel channel = getIntent().getParcelableExtra(CHANNEL_EXTRA);
+            final Channel channel = getIntent().getParcelableExtra(CHANNEL_EXTRA);
             startService(DeleteChannelService.getDeleteChannelServiceIntent(this, channel.getLink()));
+        }
+        if(item.getItemId() == R.id.refreshNewsMenuButton)
+        {
+            newsScreen.startParserService();
         }
         return super.onOptionsItemSelected(item);
     }

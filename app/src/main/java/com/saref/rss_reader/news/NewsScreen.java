@@ -30,6 +30,7 @@ final class NewsScreen implements LifeCycleInterface
     private final ProgressBar progressBar;
     private final String channelLink;
     private Channel channel;
+    private boolean parserIsWorking = false;
 
     NewsScreen(final Activity activity, final Channel channel)
     {
@@ -58,13 +59,14 @@ final class NewsScreen implements LifeCycleInterface
                         progressBar.setVisibility(View.GONE);
                     }
                     setAdapter();
-                    activity.startService(FeedParserService.getParserServiceIntent(activity, channelLink));
+                    startParserService();
                 }
             }
             if (NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE.equals(intent.getAction()))
             {
                 if (channelLink.equals(intent.getStringExtra(NewsActivity.LINK_TO_CHECK)))
                 {
+                    parserIsWorking = false;
                     progressBar.setVisibility(View.GONE);
                     final ArrayList<FeedItem> listToAdd = intent.getParcelableArrayListExtra(NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE);
                     itemList.addAll(0, listToAdd);
@@ -81,16 +83,26 @@ final class NewsScreen implements LifeCycleInterface
                 activity.startService(SetAlarmsService.getAlarmsServiceIntent(activity));
                 activity.startActivity(ChannelsActivity.getChannelsActivityIntent(activity));
             }
+            //TODO Ошибки, особождение переменной
         }
     };
 
     private void setAdapter()
     {
-        NewsAdapter adapter = new NewsAdapter(activity, itemList, channel);
+        final NewsAdapter adapter = new NewsAdapter(activity, itemList, channel);
         listView.setAdapter(adapter);
         if (null != state)
         {
             listView.onRestoreInstanceState(state);
+        }
+    }
+
+    public void startParserService()
+    {
+        if(!parserIsWorking)
+        {
+            activity.startService(FeedParserService.getParserServiceIntent(activity, channelLink));
+            parserIsWorking = true;
         }
     }
 

@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteException;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.saref.rss_reader.alarms.AlarmReceiver;
+import com.saref.rss_reader.alarms.SetAlarmsService;
 import com.saref.rss_reader.news.NewsActivity;
 
 public class DeleteChannelService extends IntentService
@@ -45,7 +46,7 @@ public class DeleteChannelService extends IntentService
     }
 
     @Override
-    protected void onHandleIntent(Intent intent)
+    protected void onHandleIntent(final Intent intent)
     {
         if (null != intent.getExtras())
         {
@@ -54,11 +55,11 @@ public class DeleteChannelService extends IntentService
 
             try
             {
-                AlarmReceiver alarmReceiver = new AlarmReceiver();
+                final AlarmReceiver alarmReceiver = new AlarmReceiver();
                 alarmReceiver.cancelAlarm(this);
                 database.delete(ChannelsContract.TABLE_NAME, selection, selectionArgs);
                 sendBroadcast();
-
+                startService(SetAlarmsService.getAlarmsServiceIntent(this));
             }
             catch (SQLiteException e)
             {

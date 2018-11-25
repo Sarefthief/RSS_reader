@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="alarmTimerArrayValues">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>480</item>
+        <item>720</item>
+        <item>1440</item>
+    </string-array>
+    <string-array name="alarmTimerArrayEntries">
+        <item>15 минут</item>
+        <item>30 минут</item>
+        <item>1 час</item>
+        <item>3 часа</item>
+        <item>8 часов</item>
+        <item>12 часов</item>
+        <item>24 часа</item>
+    </string-array>
+    <string-array name="maxNewsCountArray">
+        <item>200</item>
+        <item>300</item>
+        <item>500</item>
+        <item>800</item>
+        <item>1000</item>
+    </string-array>
+</resources>

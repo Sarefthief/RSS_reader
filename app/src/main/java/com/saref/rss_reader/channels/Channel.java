@@ -14,7 +14,7 @@ public final class Channel implements Parcelable
         this.link = link;
     }
 
-    private Channel(Parcel in)
+    private Channel(final Parcel in)
     {
         String[] data = new String[2];
         in.readStringArray(data);
@@ -44,7 +44,7 @@ public final class Channel implements Parcelable
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i)
+    public void writeToParcel(final Parcel parcel,final int i)
     {
         parcel.writeStringArray(new String[]{title, link});
     }

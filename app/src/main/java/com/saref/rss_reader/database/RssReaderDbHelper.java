@@ -33,7 +33,7 @@ public class RssReaderDbHelper extends SQLiteOpenHelper
     private static final String SQL_DELETE_NEWS =
             "DROP TABLE IF EXISTS " + NewsContract.TABLE_NAME;
 
-    public RssReaderDbHelper(final Context context)
+    RssReaderDbHelper(final Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }

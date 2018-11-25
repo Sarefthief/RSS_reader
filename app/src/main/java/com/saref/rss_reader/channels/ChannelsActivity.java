@@ -46,6 +46,10 @@ public final class ChannelsActivity extends AppCompatActivity
         {
             startActivity(AddChannelActivity.getAddChannelIntent(this));
         }
+        if (item.getItemId() == R.id.settingsMenuButton)
+        {
+            startActivity(SettingsActivity.getSettingsActivityIntent(this));
+        }
         return super.onOptionsItemSelected(item);
     }
 

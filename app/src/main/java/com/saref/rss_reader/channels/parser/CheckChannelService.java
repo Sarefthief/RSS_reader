@@ -60,7 +60,7 @@ public final class CheckChannelService extends IntentService
     }
 
     @Override
-    protected void onHandleIntent(Intent intent)
+    protected void onHandleIntent(final Intent intent)
     {
         if (intent.hasExtra(CHECK_CHANNEL_EXTRA_URL))
         {
@@ -105,7 +105,7 @@ public final class CheckChannelService extends IntentService
 
     private void saveChannelToDatabase(final Channel channel)
     {
-        ContentValues values = new ContentValues();
+        final ContentValues values = new ContentValues();
         values.put(ChannelsContract.COLUMN_NAME_TITLE, channel.getTitle());
         values.put(ChannelsContract.COLUMN_NAME_LINK, channel.getLink());
         try
@@ -120,18 +120,24 @@ public final class CheckChannelService extends IntentService
         }
     }
 
-
-    private void checkChannelExistence(Channel channel) throws ChannelAlreadyExistException
+    private void checkChannelExistence(final Channel channel) throws ChannelAlreadyExistException
     {
-        String selection = ChannelsContract.COLUMN_NAME_LINK + " = ?";
-        String[] selectionArgs = {channel.getLink()};
+        final String selection = ChannelsContract.COLUMN_NAME_LINK + " = ?";
+        final String[] selectionArgs = {channel.getLink()};
 
-        Cursor cursor = database.query(ChannelsContract.TABLE_NAME, null, selection, selectionArgs, null, null, null);
-        int rowsCount = cursor.getCount();
-        cursor.close();
-        if (rowsCount != 0)
+        try
         {
-            throw new ChannelAlreadyExistException();
+            final Cursor cursor = database.query(ChannelsContract.TABLE_NAME, null, selection, selectionArgs, null, null, null);
+            int rowsCount = cursor.getCount();
+            cursor.close();
+            if (rowsCount != 0)
+            {
+                throw new ChannelAlreadyExistException();
+            }
+        }
+        catch (SQLiteException e)
+        {
+
         }
     }
 

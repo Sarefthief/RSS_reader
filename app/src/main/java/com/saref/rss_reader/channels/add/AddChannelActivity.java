@@ -1,6 +1,5 @@
 package com.saref.rss_reader.channels.add;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,7 +41,7 @@ public final class AddChannelActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
+    public boolean onOptionsItemSelected(final MenuItem item)
     {
         if (item.getItemId() == android.R.id.home)
         {

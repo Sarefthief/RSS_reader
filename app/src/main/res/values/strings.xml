@@ -4,6 +4,7 @@
     <string name="channelsActionBarTitle">Список каналов</string>
     <string name="articleDetailsButtonName">Перейти к источнику</string>
     <string name="addChannelMenuButton">Добавить канал</string>
+    <string name="addChannelTitle">Добавление канала</string>
     <string name="openSettingsMenuButton">Настройки</string>
     <string name="deleteChannelMenuButton">Удалить канал</string>
     <string name="listIsEmpty">Список пуст</string>
@@ -12,4 +13,19 @@
     <string name="channelIsAlreadyExistsError">Данный канал уже существует</string>
     <string name="notRssOrAtomXmlError">По данному адресу, не обнаружена RSS или ATOM лента</string>
     <string name="channelWriteSqlError">Ошибка записи в базу данных</string>
+
+    <string name="alarmCheckBoxPreferenceKey">alarmCheckBox</string>
+    <string name="alarmCheckBoxTitle">Загрузка новостей по таймеру</string>
+    <string name="alarmCheckBoxSummary">Включить или выключить загрузку новостей по таймеру</string>
+
+    <string name="alarmTimerPreferenceKey">alarmTimerPreference</string>
+    <string name="alarmTimerPreferenceDefault">180</string>
+    <string name="alarmTimerPreferenceTitle">Частота загрузки новостей</string>
+    <string name="alarmTimerPreferenceSummary">Позволяет выбрать частоту с которой будут загружаться новости в фоновом режиме</string>
+
+    <string name="maxNewsCountPreferenceKey">maxNewsCountPreference</string>
+    <string name="maxNewsCountPreferenceTitle">Количество хранимых новостей</string>
+    <string name="maxNewsCountPreferenceSummary">Установить максимальное количество новостей, которые будут сохранятся в базу данных</string>
+    <string name="maxNewsCountPreferenceDefault">500</string>
+
 </resources>

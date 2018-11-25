@@ -22,7 +22,6 @@
 
             android:inputType="textUri"
             android:hint="@string/rssChannelEnterHint"
-
             />
 
         <Button

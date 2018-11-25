@@ -41,9 +41,9 @@ public class SetAlarmsService extends IntentService
     }
 
     @Override
-    protected void onHandleIntent(Intent intent)
+    protected void onHandleIntent(final Intent intent)
     {
-        AlarmReceiver alarmReceiver = new AlarmReceiver();
+        final AlarmReceiver alarmReceiver = new AlarmReceiver();
         alarmReceiver.setAlarm(this, getAllChannelsLinks());
     }
 
@@ -51,10 +51,9 @@ public class SetAlarmsService extends IntentService
     {
         ArrayList<String> channelsLinksList = new ArrayList<>();
 
-        Cursor cursor = null;
         try
         {
-            cursor = database.query(ChannelsContract.TABLE_NAME, null, null, null, null, null, null);
+            final Cursor cursor = database.query(ChannelsContract.TABLE_NAME, null, null, null, null, null, null);
             final int linkColIndex = cursor.getColumnIndex(ChannelsContract.COLUMN_NAME_LINK);
             while (cursor.moveToNext())
             {

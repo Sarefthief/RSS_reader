@@ -49,7 +49,7 @@ public class NewsAdapter extends ArrayAdapter<FeedItem>
             }
         });
 
-        FeedItem feedItem = itemList.get(position);
+        final FeedItem feedItem = itemList.get(position);
         newsTitle.setText(feedItem.getTitle());
         newsDescription.setText(feedItem.getDescription());
 
