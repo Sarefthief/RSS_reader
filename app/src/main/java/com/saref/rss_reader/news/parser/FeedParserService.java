@@ -5,12 +5,15 @@ import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.saref.rss_reader.ConnectionEstablishment;
+import com.saref.rss_reader.R;
 import com.saref.rss_reader.database.ChannelsContract;
 import com.saref.rss_reader.database.DatabaseManager;
 import com.saref.rss_reader.database.NewsContract;
@@ -102,10 +105,12 @@ public final class FeedParserService extends IntentService
 
     private void checkNewsCountToSave(ArrayList<FeedItem> itemList, final String link)
     {
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final int maxRowsCount = Integer.parseInt(sharedPreferences.getString(getString(R.string.maxNewsCountPreferenceKey),getString(R.string.maxNewsCountPreferenceDefault)));
         int newsToWriteCount = itemList.size();
-        if (newsToWriteCount > NewsContract.MAX_ROWS_COUNT)
+        if (newsToWriteCount > maxRowsCount)
         {
-            newsToWriteCount = NewsContract.MAX_ROWS_COUNT;
+            newsToWriteCount = maxRowsCount;
         }
 
         final int channelId = getChannelId(link);
@@ -143,11 +148,13 @@ public final class FeedParserService extends IntentService
 
     private void saveNewsToDatabase(final ArrayList<FeedItem> itemList, final int rowsInDatabase, final int channelId)
     {
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final int maxRowsCount = Integer.parseInt(sharedPreferences.getString(getString(R.string.maxNewsCountPreferenceKey),getString(R.string.maxNewsCountPreferenceDefault)));
         ContentValues values;
         int sumOfRows = rowsInDatabase + itemList.size();
-        if (sumOfRows > NewsContract.MAX_ROWS_COUNT)
+        if (sumOfRows > maxRowsCount)
         {
-            deleteExtraRows(sumOfRows - NewsContract.MAX_ROWS_COUNT, channelId);
+            deleteExtraRows(sumOfRows - maxRowsCount, channelId);
         }
         for (int i = itemList.size() - 1; i >= 0; i--)
         {

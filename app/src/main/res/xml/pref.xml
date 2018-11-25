@@ -5,7 +5,7 @@
         android:key="@string/alarmCheckBoxPreferenceKey"
         android:title="@string/alarmCheckBoxTitle"
         android:summary="@string/alarmCheckBoxSummary"
-        android:defaultValue="true" />
+        android:defaultValue="@string/alarmCheckBoxDefault" />
     <ListPreference
         android:title="@string/alarmTimerPreferenceTitle"
         android:summary="@string/alarmTimerPreferenceSummary"

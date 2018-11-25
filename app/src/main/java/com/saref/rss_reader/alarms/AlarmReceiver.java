@@ -5,8 +5,11 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
+import com.saref.rss_reader.R;
 import com.saref.rss_reader.news.parser.FeedParserService;
 
 import java.util.ArrayList;
@@ -29,9 +32,14 @@ public final class AlarmReceiver extends BroadcastReceiver
 
     public void setAlarm(final Context context, final ArrayList<String> channelsLinkList)
     {
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final String updateTime = sharedPreferences.getString(context.getString(R.string.alarmTimerPreferenceKey),context.getString(R.string.alarmTimerPreferenceDefault));
         final Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
         final AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         final Intent receiverIntent = new Intent(context, AlarmReceiver.class);
         receiverIntent.putStringArrayListExtra(ALARM_EXTRA, channelsLinkList);
@@ -39,7 +47,7 @@ public final class AlarmReceiver extends BroadcastReceiver
         if (null != alarmManager)
         {
             alarmManager.cancel(alarmIntent);
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, alarmIntent);
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * Integer.parseInt(updateTime), alarmIntent);
         }
     }
 

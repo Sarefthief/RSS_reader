@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
 import com.saref.rss_reader.R;
+import com.saref.rss_reader.alarms.AlarmReceiver;
+import com.saref.rss_reader.alarms.SetAlarmsService;
 
 public class SettingsActivity extends PreferenceActivity
 {
@@ -17,19 +19,38 @@ public class SettingsActivity extends PreferenceActivity
     }
 
     private SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener()
+    {
+        public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
+        {
+            if (getString(R.string.alarmCheckBoxPreferenceKey).equals(key))
             {
-                public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
+                final boolean check = prefs.getBoolean(getString(R.string.alarmCheckBoxPreferenceKey), true);
+                if (check)
                 {
-                    if(getString(R.string.alarmCheckBoxPreferenceKey).equals(key)){
-
-                    }
-                    if(getString(R.string.alarmTimerPreferenceKey).equals(key))
-                    {
-
-                    }
+                    startAlarmService();
                 }
-            };
+                else
+                {
+                    stopAlarms();
+                }
+            }
+            if (getString(R.string.alarmTimerPreferenceKey).equals(key))
+            {
+                startAlarmService();
+            }
+        }
+    };
 
+    private void startAlarmService()
+    {
+        startService(SetAlarmsService.getAlarmsServiceIntent(this));
+    }
+
+    private void stopAlarms()
+    {
+        final AlarmReceiver alarmReceiver = new AlarmReceiver();
+        alarmReceiver.cancelAlarm(this);
+    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState)
