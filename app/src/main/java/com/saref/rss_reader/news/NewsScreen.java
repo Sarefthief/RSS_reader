@@ -13,6 +13,8 @@ import android.widget.ProgressBar;
 
 import com.saref.rss_reader.LifeCycleInterface;
 import com.saref.rss_reader.R;
+import com.saref.rss_reader.alarms.AlarmReceiver;
+import com.saref.rss_reader.alarms.SetAlarmsService;
 import com.saref.rss_reader.channels.Channel;
 import com.saref.rss_reader.channels.ChannelsActivity;
 import com.saref.rss_reader.news.parser.FeedParserService;
@@ -76,6 +78,7 @@ final class NewsScreen implements LifeCycleInterface
             if (NewsActivity.CHANNEL_IS_DELETED.equals(intent.getAction()))
             {
                 activity.finish();
+                activity.startService(SetAlarmsService.getAlarmsServiceIntent(activity));
                 activity.startActivity(ChannelsActivity.getChannelsActivityIntent(activity));
             }
         }

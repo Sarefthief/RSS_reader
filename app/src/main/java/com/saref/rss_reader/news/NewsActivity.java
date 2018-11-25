@@ -1,6 +1,7 @@
 package com.saref.rss_reader.news;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,9 +27,9 @@ public final class NewsActivity extends AppCompatActivity
 
     private NewsScreen newsScreen;
 
-    public static Intent getNewsActivityIntent(final Activity activity, final Channel channel)
+    public static Intent getNewsActivityIntent(final Context context, final Channel channel)
     {
-        Intent intent = new Intent(activity, NewsActivity.class);
+        Intent intent = new Intent(context, NewsActivity.class);
         intent.putExtra(CHANNEL_EXTRA, channel);
         return intent;
     }

@@ -1,12 +1,15 @@
 package com.saref.rss_reader.database;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.saref.rss_reader.alarms.AlarmReceiver;
 import com.saref.rss_reader.news.NewsActivity;
 
 public class DeleteChannelService extends IntentService
@@ -20,9 +23,9 @@ public class DeleteChannelService extends IntentService
         super("DeleteChannelService");
     }
 
-    public static Intent getDeleteChannelServiceIntent(final Activity activity, final String link)
+    public static Intent getDeleteChannelServiceIntent(final Context context, final String link)
     {
-        final Intent intent = new Intent(activity, DeleteChannelService.class);
+        final Intent intent = new Intent(context, DeleteChannelService.class);
         intent.putExtra(DELETE_CHANNEL_EXTRA, link);
         return intent;
     }
@@ -51,8 +54,11 @@ public class DeleteChannelService extends IntentService
 
             try
             {
+                AlarmReceiver alarmReceiver = new AlarmReceiver();
+                alarmReceiver.cancelAlarm(this);
                 database.delete(ChannelsContract.TABLE_NAME, selection, selectionArgs);
                 sendBroadcast();
+
             }
             catch (SQLiteException e)
             {

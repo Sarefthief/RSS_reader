@@ -14,9 +14,11 @@ import android.widget.Toast;
 
 import com.saref.rss_reader.LifeCycleInterface;
 import com.saref.rss_reader.R;
+import com.saref.rss_reader.alarms.SetAlarmsService;
 import com.saref.rss_reader.channels.Channel;
 import com.saref.rss_reader.channels.ChannelsActivity;
 import com.saref.rss_reader.channels.parser.CheckChannelService;
+import com.saref.rss_reader.alarms.AlarmReceiver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -24,6 +26,7 @@ import java.net.URL;
 final class AddChannelScreen implements LifeCycleInterface
 {
     private Activity activity;
+    private EditText channelUrlField;
     private boolean isClicked = false;
 
 
@@ -39,7 +42,8 @@ final class AddChannelScreen implements LifeCycleInterface
             }
             if (ChannelsActivity.ADD_CHANNEL_MESSAGE.equals(intent.getAction()))
             {
-                activity.startActivity(new Intent(activity,ChannelsActivity.class));
+                activity.startService(SetAlarmsService.getAlarmsServiceIntent(activity));
+                activity.startActivity(ChannelsActivity.getChannelsActivityIntent(activity));
                 activity.finish();
             }
         }
@@ -51,9 +55,16 @@ final class AddChannelScreen implements LifeCycleInterface
         findElements();
     }
 
+    AddChannelScreen(final Activity activity, final String link)
+    {
+        this.activity = activity;
+        findElements();
+        channelUrlField.setText(link);
+    }
+
     private void findElements()
     {
-        final EditText channelURL = activity.findViewById(R.id.enterChannelUrl);
+        channelUrlField = activity.findViewById(R.id.enterChannelUrl);
         final Button addChannelButton = activity.findViewById(R.id.addChannelButton);
         addChannelButton.setOnClickListener(new View.OnClickListener()
         {
@@ -64,8 +75,8 @@ final class AddChannelScreen implements LifeCycleInterface
                 {
                     try
                     {
-                        final URL url = new URL(channelURL.getText().toString());
-                        if (Patterns.WEB_URL.matcher(channelURL.getText().toString()).matches())
+                        final URL url = new URL(channelUrlField.getText().toString());
+                        if (Patterns.WEB_URL.matcher(channelUrlField.getText().toString()).matches())
                         {
                             isClicked = true;
                             activity.startService(CheckChannelService.getCheckChannelServiceIntent(activity, new Channel("", url.toString())));
@@ -78,7 +89,7 @@ final class AddChannelScreen implements LifeCycleInterface
                     catch (MalformedURLException e)
                     {
                         isClicked = false;
-                        channelURL.setError("Test");
+                        channelUrlField.setError("Test");
                     }
                 }
             }

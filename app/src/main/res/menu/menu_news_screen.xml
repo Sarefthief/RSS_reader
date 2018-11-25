@@ -4,6 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/refreshNewsMenuButton"
+        android:icon="@drawable/refresh_news"
+        android:title="@string/deleteChannelMenuButton"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
         android:id="@+id/deleteChannelMenuButton"
         android:title="@string/deleteChannelMenuButton"
         app:showAsAction="never"

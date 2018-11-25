@@ -1,6 +1,7 @@
 package com.saref.rss_reader.channels;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,18 +10,18 @@ import android.view.MenuItem;
 
 import com.saref.rss_reader.R;
 import com.saref.rss_reader.channels.add.AddChannelActivity;
-import com.saref.rss_reader.news.NewsActivity;
 
 public final class ChannelsActivity extends AppCompatActivity
 {
     public static String ADD_CHANNEL_MESSAGE = "ADD_CHANNEL_MESSAGE";
     public static String LOAD_CHANNELS_LIST_MESSAGE = "LOAD_CHANNELS_LIST_MESSAGE";
+    public static String ADD_CHANNEL_CHECK = "ADD_CHANNEL_CHECK";
 
     private ChannelsScreen channelsScreen;
 
-    public static Intent getChannelsActivityIntent(final Activity activity)
+    public static Intent getChannelsActivityIntent(final Context context)
     {
-        return new Intent(activity, ChannelsActivity.class);
+        return new Intent(context, ChannelsActivity.class);
     }
 
     @Override

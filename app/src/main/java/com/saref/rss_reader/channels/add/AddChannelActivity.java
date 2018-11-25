@@ -1,6 +1,7 @@
 package com.saref.rss_reader.channels.add;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,16 +21,24 @@ public final class AddChannelActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_channel);
-        addChannelScreen = new AddChannelScreen(this);
-        if(getSupportActionBar() != null)
+        Intent intent = getIntent();
+        if (Intent.ACTION_VIEW.equals(intent.getAction()))
+        {
+            addChannelScreen = new AddChannelScreen(this, intent.getDataString());
+        }
+        else
+        {
+            addChannelScreen = new AddChannelScreen(this);
+        }
+        if (getSupportActionBar() != null)
         {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 
-    public static Intent getAddChannelIntent(final Activity activity)
+    public static Intent getAddChannelIntent(final Context context)
     {
-        return new Intent(activity, AddChannelActivity.class);
+        return new Intent(context, AddChannelActivity.class);
     }
 
     @Override

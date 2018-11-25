@@ -3,6 +3,7 @@ package com.saref.rss_reader.news.parser;
 import android.app.Activity;
 import android.app.IntentService;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -35,6 +36,13 @@ public final class FeedParserService extends IntentService
         super("FeedParserService");
     }
 
+    public static Intent getParserServiceIntent(final Context context, final String url)
+    {
+        Intent intent = new Intent(context, FeedParserService.class);
+        intent.putExtra(NewsActivity.CHANNEL_LINK_EXTRA, url);
+        return intent;
+    }
+
     @Override
     public void onCreate()
     {
@@ -56,13 +64,6 @@ public final class FeedParserService extends IntentService
         {
             parseFeed(intent.getStringExtra(NewsActivity.CHANNEL_LINK_EXTRA));
         }
-    }
-
-    public static Intent getParserServiceIntent(final Activity activity, final String url)
-    {
-        Intent intent = new Intent(activity, FeedParserService.class);
-        intent.putExtra(NewsActivity.CHANNEL_LINK_EXTRA, url);
-        return intent;
     }
 
     private void parseFeed(final String link)
@@ -104,7 +105,7 @@ public final class FeedParserService extends IntentService
         int newsToWriteCount = itemList.size();
         if (newsToWriteCount > NewsContract.MAX_ROWS_COUNT)
         {
-            newsToWriteCount -= newsToWriteCount - NewsContract.MAX_ROWS_COUNT;
+            newsToWriteCount = NewsContract.MAX_ROWS_COUNT;
         }
 
         final int channelId = getChannelId(link);
@@ -212,5 +213,10 @@ public final class FeedParserService extends IntentService
         intent.putExtra(NewsActivity.LINK_TO_CHECK, link);
         intent.putExtra(NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE, itemList);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+    private void sendErrorBroadcast()
+    {
+
     }
 }

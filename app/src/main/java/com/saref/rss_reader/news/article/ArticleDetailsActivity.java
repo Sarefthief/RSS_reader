@@ -1,6 +1,7 @@
 package com.saref.rss_reader.news.article;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,14 @@ public final class ArticleDetailsActivity extends AppCompatActivity
     private ArticleDetailsScreen articleDetailsScreen;
     private Channel channel;
 
+    public static Intent getArticleDetailsActivityIntent(final Context context, final FeedItem feedItem, final Channel channel)
+    {
+        final Intent intent = new Intent(context, ArticleDetailsActivity.class);
+        intent.putExtra(FEED_ITEM_EXTRA, feedItem);
+        intent.putExtra(NewsActivity.CHANNEL_TO_CHECK, channel);
+        return intent;
+    }
+
     @Override
     protected void onCreate(final Bundle savedInstanceState)
     {
@@ -32,14 +41,6 @@ public final class ArticleDetailsActivity extends AppCompatActivity
         final FeedItem feedItem = intent.getParcelableExtra(FEED_ITEM_EXTRA);
         channel = intent.getParcelableExtra(NewsActivity.CHANNEL_TO_CHECK);
         articleDetailsScreen = new ArticleDetailsScreen(this, feedItem);
-    }
-
-    public static Intent getArticleDetailsActivityIntent(final Activity activity, final FeedItem feedItem, final Channel channel)
-    {
-        final Intent intent = new Intent(activity, ArticleDetailsActivity.class);
-        intent.putExtra(FEED_ITEM_EXTRA, feedItem);
-        intent.putExtra(NewsActivity.CHANNEL_TO_CHECK, channel);
-        return intent;
     }
 
     @Override

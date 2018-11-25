@@ -3,22 +3,22 @@ package com.saref.rss_reader.channels.parser;
 import android.app.Activity;
 import android.app.IntentService;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.saref.rss_reader.database.DatabaseManager;
-import com.saref.rss_reader.exceptions.ChannelAlreadyExistException;
 import com.saref.rss_reader.ConnectionEstablishment;
 import com.saref.rss_reader.R;
-import com.saref.rss_reader.exceptions.WrongXmlTypeException;
 import com.saref.rss_reader.channels.Channel;
 import com.saref.rss_reader.channels.ChannelsActivity;
 import com.saref.rss_reader.channels.add.AddChannelActivity;
 import com.saref.rss_reader.database.ChannelsContract;
-import com.saref.rss_reader.database.RssReaderDbHelper;
+import com.saref.rss_reader.database.DatabaseManager;
+import com.saref.rss_reader.exceptions.ChannelAlreadyExistException;
+import com.saref.rss_reader.exceptions.WrongXmlTypeException;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 public final class CheckChannelService extends IntentService
 {
@@ -37,9 +38,9 @@ public final class CheckChannelService extends IntentService
         super("CheckChannelService");
     }
 
-    public static Intent getCheckChannelServiceIntent(final Activity activity, final Channel channel)
+    public static Intent getCheckChannelServiceIntent(final Context context, final Channel channel)
     {
-        final Intent intent = new Intent(activity, CheckChannelService.class);
+        final Intent intent = new Intent(context, CheckChannelService.class);
         intent.putExtra(CHECK_CHANNEL_EXTRA_URL, channel);
         return intent;
     }
@@ -118,6 +119,7 @@ public final class CheckChannelService extends IntentService
             sendErrorBroadcast(getString(R.string.channelWriteSqlError));
         }
     }
+
 
     private void checkChannelExistence(Channel channel) throws ChannelAlreadyExistException
     {

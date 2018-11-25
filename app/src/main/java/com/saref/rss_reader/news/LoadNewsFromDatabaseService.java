@@ -2,6 +2,7 @@ package com.saref.rss_reader.news;
 
 import android.app.Activity;
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,9 +31,9 @@ public final class LoadNewsFromDatabaseService extends IntentService
         super("LoadNewsFromDatabase");
     }
 
-    public static Intent getLoadNewsServiceIntent(final Activity activity, final String url)
+    public static Intent getLoadNewsServiceIntent(final Context context, final String url)
     {
-        Intent intent = new Intent(activity, LoadNewsFromDatabaseService.class);
+        Intent intent = new Intent(context, LoadNewsFromDatabaseService.class);
         intent.putExtra(NewsActivity.CHANNEL_LINK_EXTRA, url);
         return intent;
     }

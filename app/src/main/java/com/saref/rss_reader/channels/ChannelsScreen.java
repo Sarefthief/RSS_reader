@@ -10,7 +10,6 @@ import android.widget.ListView;
 
 import com.saref.rss_reader.LifeCycleInterface;
 import com.saref.rss_reader.R;
-import com.saref.rss_reader.channels.parser.CheckChannelService;
 
 import java.util.ArrayList;
 
@@ -29,10 +28,14 @@ final class ChannelsScreen implements LifeCycleInterface
         @Override
         public void onReceive(final Context context, final Intent intent)
         {
-            channelsList = intent.getParcelableArrayListExtra(ChannelsActivity.LOAD_CHANNELS_LIST_MESSAGE);
-            showChannels();
+            if (ChannelsActivity.LOAD_CHANNELS_LIST_MESSAGE.equals(intent.getAction()))
+            {
+                channelsList = intent.getParcelableArrayListExtra(ChannelsActivity.LOAD_CHANNELS_LIST_MESSAGE);
+                showChannels();
+            }
         }
     };
+
 
     private void showChannels()
     {
