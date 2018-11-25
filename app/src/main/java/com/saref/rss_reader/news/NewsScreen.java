@@ -5,7 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.ListView;
@@ -79,9 +81,13 @@ final class NewsScreen implements LifeCycleInterface
             }
             if (NewsActivity.CHANNEL_IS_DELETED.equals(intent.getAction()))
             {
-                activity.finish();
-                activity.startService(SetAlarmsService.getAlarmsServiceIntent(activity));
+                final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                final boolean check = sharedPreferences.getBoolean(context.getString(R.string.alarmCheckBoxPreferenceKey), true);
+                if(check){
+                    activity.startService(SetAlarmsService.getAlarmsServiceIntent(activity));
+                }
                 activity.startActivity(ChannelsActivity.getChannelsActivityIntent(activity));
+                activity.finish();
             }
             //TODO Ошибки, особождение переменной
         }

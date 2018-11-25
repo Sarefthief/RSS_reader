@@ -12,6 +12,7 @@ import com.saref.rss_reader.channels.ChannelsActivity;
 public final class AddChannelActivity extends AppCompatActivity
 {
     public static final String ADD_CHANNEL_ERROR = "ADD_CHANNEL_ERROR";
+    static final String EDIT_TEXT_INPUT_STRING = "EDIT_TEXT_INPUT_STRING";
 
     private AddChannelScreen addChannelScreen;
 
@@ -45,6 +46,7 @@ public final class AddChannelActivity extends AppCompatActivity
     {
         if (item.getItemId() == android.R.id.home)
         {
+            addChannelScreen.saveInput();
             startActivity(ChannelsActivity.getChannelsActivityIntent(this));
         }
         return super.onOptionsItemSelected(item);
@@ -61,6 +63,7 @@ public final class AddChannelActivity extends AppCompatActivity
     public void onBackPressed()
     {
         super.onBackPressed();
+        addChannelScreen.saveInput();
         startActivity(new Intent(this, ChannelsActivity.class));
     }
 }

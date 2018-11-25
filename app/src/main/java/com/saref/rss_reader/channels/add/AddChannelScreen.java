@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Patterns;
 import android.view.View;
@@ -40,7 +42,12 @@ final class AddChannelScreen implements LifeCycleInterface
             }
             if (ChannelsActivity.ADD_CHANNEL_MESSAGE.equals(intent.getAction()))
             {
-                activity.startService(SetAlarmsService.getAlarmsServiceIntent(activity));
+                final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                final boolean check = sharedPreferences.getBoolean(context.getString(R.string.alarmCheckBoxPreferenceKey), true);
+                sharedPreferences.edit().remove(AddChannelActivity.EDIT_TEXT_INPUT_STRING).apply();
+                if(check){
+                    activity.startService(SetAlarmsService.getAlarmsServiceIntent(activity));
+                }
                 activity.startActivity(ChannelsActivity.getChannelsActivityIntent(activity));
                 activity.finish();
             }
@@ -63,6 +70,8 @@ final class AddChannelScreen implements LifeCycleInterface
     private void findElements()
     {
         channelUrlField = activity.findViewById(R.id.enterChannelUrl);
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        channelUrlField.setText(sharedPreferences.getString(AddChannelActivity.EDIT_TEXT_INPUT_STRING, ""));
         final Button addChannelButton = activity.findViewById(R.id.addChannelButton);
         addChannelButton.setOnClickListener(new View.OnClickListener()
         {
@@ -99,6 +108,12 @@ final class AddChannelScreen implements LifeCycleInterface
         Toast.makeText(activity, toastText, Toast.LENGTH_LONG).show();
     }
 
+    void saveInput()
+    {
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        sharedPreferences.edit().putString(AddChannelActivity.EDIT_TEXT_INPUT_STRING, channelUrlField.getText().toString()).apply();
+    }
+
     @Override
     public void onResume()
     {
@@ -110,6 +125,7 @@ final class AddChannelScreen implements LifeCycleInterface
     @Override
     public void onPause()
     {
+        saveInput();
         LocalBroadcastManager.getInstance(activity).unregisterReceiver(receiver);
     }
 }

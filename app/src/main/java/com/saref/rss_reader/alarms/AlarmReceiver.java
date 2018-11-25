@@ -22,7 +22,6 @@ public final class AlarmReceiver extends BroadcastReceiver
     @Override
     public void onReceive(final Context context, final Intent intent)
     {
-        Toast.makeText(context, "Alarm !!!!!!!!!!", Toast.LENGTH_LONG).show();
         final ArrayList<String> channelsLinksList = intent.getStringArrayListExtra(ALARM_EXTRA);
         for (int i = 0; i < channelsLinksList.size(); i++)
         {

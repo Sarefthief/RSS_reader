@@ -15,7 +15,7 @@ public final class ChannelsActivity extends AppCompatActivity
 {
     public static String ADD_CHANNEL_MESSAGE = "ADD_CHANNEL_MESSAGE";
     public static String LOAD_CHANNELS_LIST_MESSAGE = "LOAD_CHANNELS_LIST_MESSAGE";
-    public static String ADD_CHANNEL_CHECK = "ADD_CHANNEL_CHECK";
+    public static String LAST_VISITED_SCREEN = "LAST_VISITED_SCREEN";
 
     private ChannelsScreen channelsScreen;
 
