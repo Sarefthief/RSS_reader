@@ -29,6 +29,7 @@ final class AddChannelScreen implements LifeCycleInterface
     private Activity activity;
     private EditText channelUrlField;
     private boolean isClicked = false;
+    private boolean isSaveNeeded = true;
 
     private BroadcastReceiver receiver = new BroadcastReceiver()
     {
@@ -45,6 +46,7 @@ final class AddChannelScreen implements LifeCycleInterface
                 final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
                 final boolean check = sharedPreferences.getBoolean(context.getString(R.string.alarmCheckBoxPreferenceKey), true);
                 sharedPreferences.edit().remove(AddChannelActivity.EDIT_TEXT_INPUT_STRING).apply();
+                isSaveNeeded = false;
                 if(check){
                     activity.startService(SetAlarmsService.getAlarmsServiceIntent(activity));
                 }
@@ -110,8 +112,10 @@ final class AddChannelScreen implements LifeCycleInterface
 
     void saveInput()
     {
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        sharedPreferences.edit().putString(AddChannelActivity.EDIT_TEXT_INPUT_STRING, channelUrlField.getText().toString()).apply();
+        if(isSaveNeeded){
+            final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+            sharedPreferences.edit().putString(AddChannelActivity.EDIT_TEXT_INPUT_STRING, channelUrlField.getText().toString()).apply();
+        }
     }
 
     @Override

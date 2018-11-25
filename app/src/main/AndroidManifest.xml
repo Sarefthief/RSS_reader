@@ -3,6 +3,7 @@
     package="com.saref.rss_reader">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -12,25 +13,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.saref.rss_reader.ChoseStartScreenActivity">
+        <activity
+            android:name="com.saref.rss_reader.ChoseStartScreenActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".news.NewsActivity"
+            android:name="com.saref.rss_reader.news.NewsActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".news.article.ArticleDetailsActivity"
+            android:name="com.saref.rss_reader.news.article.ArticleDetailsActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".channels.ChannelsActivity"
+            android:name="com.saref.rss_reader.channels.ChannelsActivity"
             android:label="@string/channelsActionBarTitle"
             android:launchMode="singleTask">
         </activity>
         <activity
-            android:name=".channels.add.AddChannelActivity"
+            android:name="com.saref.rss_reader.channels.add.AddChannelActivity"
             android:label="@string/addChannelTitle"
             android:launchMode="singleTask">
             <intent-filter>
@@ -43,19 +46,25 @@
                 <data android:scheme="http" />
             </intent-filter>
         </activity>
-        <activity android:name=".channels.SettingsActivity" />
+        <activity android:name="com.saref.rss_reader.channels.SettingsActivity" />
 
-        <service android:name=".news.parser.FeedParserService" />
-        <service android:name=".channels.parser.CheckChannelService" />
-        <service android:name=".news.LoadNewsFromDatabaseService" />
-        <service android:name=".channels.LoadChannelsFromDatabaseService" />
-        <service android:name=".database.DeleteChannelService" />
-        <service android:name=".alarms.SetAlarmsService" />
+        <service android:name="com.saref.rss_reader.news.parser.FeedParserService" />
+        <service android:name="com.saref.rss_reader.channels.parser.CheckChannelService" />
+        <service android:name="com.saref.rss_reader.news.LoadNewsFromDatabaseService" />
+        <service android:name="com.saref.rss_reader.channels.LoadChannelsFromDatabaseService" />
+        <service android:name="com.saref.rss_reader.database.DeleteChannelService" />
+        <service android:name="com.saref.rss_reader.alarms.SetAlarmsService" />
 
         <receiver
-            android:name=".alarms.AlarmReceiver"
+            android:name="com.saref.rss_reader.alarms.AlarmReceiver"
             android:process=":remote" />
-
+        <receiver
+            android:name="com.saref.rss_reader.alarms.SampleBootReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

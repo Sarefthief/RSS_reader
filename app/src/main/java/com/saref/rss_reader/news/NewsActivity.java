@@ -76,6 +76,7 @@ public final class NewsActivity extends AppCompatActivity
         if (item.getItemId() == android.R.id.home)
         {
             startActivity(ChannelsActivity.getChannelsActivityIntent(this));
+            finish();
         }
         if (item.getItemId() == R.id.deleteChannelMenuButton)
         {

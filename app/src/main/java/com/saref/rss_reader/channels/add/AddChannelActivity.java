@@ -53,6 +53,7 @@ public final class AddChannelActivity extends AppCompatActivity
         {
             addChannelScreen.saveInput();
             startActivity(ChannelsActivity.getChannelsActivityIntent(this));
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

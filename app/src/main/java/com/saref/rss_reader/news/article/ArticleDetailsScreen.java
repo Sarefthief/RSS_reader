@@ -2,6 +2,7 @@ package com.saref.rss_reader.news.article;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.view.View;
@@ -28,6 +29,8 @@ final class ArticleDetailsScreen implements LifeCycleInterface
     {
         final TextView title = activity.findViewById(R.id.articleTitle);
         final WebView description = activity.findViewById(R.id.articleDescription);
+        description.getSettings();
+        description.setBackgroundColor(Color.TRANSPARENT);
         final Button linkButton = activity.findViewById(R.id.articleLink);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
@@ -38,7 +41,9 @@ final class ArticleDetailsScreen implements LifeCycleInterface
         {
             description.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
-        description.loadData(feedItem.getDescription(), "text/html; charset=utf-8", "utf-8");
+        final String htmlEnd = "</body>";
+        final String htmlStart = "<head><style>img{display: inline;height: auto;max-width: 100%; margin-top:10px; margin-bottom:10px}</style></head><body style='text-align:justify'>";
+        description.loadDataWithBaseURL(null, htmlStart + feedItem.getDescription() + htmlEnd, "text/html", "UTF-8", null);
         title.setText(feedItem.getTitle());
         linkButton.setOnClickListener(new View.OnClickListener()
         {

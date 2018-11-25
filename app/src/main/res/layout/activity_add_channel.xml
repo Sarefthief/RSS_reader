@@ -8,29 +8,28 @@
     tools:context="com.saref.rss_reader.channels.add.AddChannelActivity">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45">
 
         <EditText
             android:id="@+id/enterChannelUrl"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight = "1"
-
-            android:inputType="textUri"
+            style="@style/addChannelEditText"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:hint="@string/rssChannelEnterHint"
-            />
+            android:inputType="textUri" />
 
         <Button
             android:id="@+id/addChannelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:text="@string/addChannelButton"
-            />
+            android:layout_gravity="center"
+            android:text="@string/addChannelButton" />
     </LinearLayout>
 
 
