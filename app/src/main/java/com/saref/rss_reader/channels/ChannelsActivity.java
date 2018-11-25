@@ -1,13 +1,15 @@
 package com.saref.rss_reader.channels;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.saref.rss_reader.ChoseStartScreenActivity;
 import com.saref.rss_reader.R;
 import com.saref.rss_reader.channels.add.AddChannelActivity;
 
@@ -15,7 +17,6 @@ public final class ChannelsActivity extends AppCompatActivity
 {
     public static String ADD_CHANNEL_MESSAGE = "ADD_CHANNEL_MESSAGE";
     public static String LOAD_CHANNELS_LIST_MESSAGE = "LOAD_CHANNELS_LIST_MESSAGE";
-    public static String LAST_VISITED_SCREEN = "LAST_VISITED_SCREEN";
 
     private ChannelsScreen channelsScreen;
 
@@ -29,6 +30,8 @@ public final class ChannelsActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_channels_screen);
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.edit().putString(ChoseStartScreenActivity.LAST_VISITED_SCREEN, ChoseStartScreenActivity.CHANNELS_SCREEN_IS_LAST).apply();
         channelsScreen = new ChannelsScreen(this);
     }
 

@@ -2,10 +2,13 @@ package com.saref.rss_reader.channels.add;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.saref.rss_reader.ChoseStartScreenActivity;
 import com.saref.rss_reader.R;
 import com.saref.rss_reader.channels.ChannelsActivity;
 
@@ -21,6 +24,8 @@ public final class AddChannelActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_channel);
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.edit().putString(ChoseStartScreenActivity.LAST_VISITED_SCREEN, ChoseStartScreenActivity.ADD_CHANNEL_SCREEN_IS_LAST).apply();
         Intent intent = getIntent();
         if (Intent.ACTION_VIEW.equals(intent.getAction()))
         {
@@ -60,10 +65,17 @@ public final class AddChannelActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onPause()
+    {
+        super.onPause();
+        addChannelScreen.onPause();
+    }
+
+    @Override
     public void onBackPressed()
     {
         super.onBackPressed();
         addChannelScreen.saveInput();
-        startActivity(new Intent(this, ChannelsActivity.class));
+        startActivity(ChannelsActivity.getChannelsActivityIntent(this));
     }
 }

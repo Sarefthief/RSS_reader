@@ -12,7 +12,7 @@ import com.saref.rss_reader.database.DatabaseManager;
 
 import java.util.ArrayList;
 
-public class SetAlarmsService extends IntentService
+public final class SetAlarmsService extends IntentService
 {
     private SQLiteDatabase database;
 

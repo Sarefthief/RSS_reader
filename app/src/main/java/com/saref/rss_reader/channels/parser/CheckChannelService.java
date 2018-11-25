@@ -1,6 +1,5 @@
 package com.saref.rss_reader.channels.parser;
 
-import android.app.Activity;
 import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Context;
@@ -26,7 +25,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 public final class CheckChannelService extends IntentService
 {

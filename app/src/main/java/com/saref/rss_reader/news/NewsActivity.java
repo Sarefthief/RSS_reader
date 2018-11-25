@@ -3,11 +3,14 @@ package com.saref.rss_reader.news;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.saref.rss_reader.ChoseStartScreenActivity;
 import com.saref.rss_reader.R;
 import com.saref.rss_reader.channels.Channel;
 import com.saref.rss_reader.channels.ChannelsActivity;
@@ -46,8 +49,12 @@ public final class NewsActivity extends AppCompatActivity
 
         if (null != getIntent().getExtras())
         {
-            Channel channel = getIntent().getParcelableExtra(CHANNEL_EXTRA);
+            final Channel channel = getIntent().getParcelableExtra(CHANNEL_EXTRA);
             setTitle(channel.getTitle());
+            final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            sharedPreferences.edit().putString(ChoseStartScreenActivity.LAST_VISITED_SCREEN, ChoseStartScreenActivity.NEWS_SCREEN_IS_LAST).
+                    putString(ChoseStartScreenActivity.NEWS_SCREEN_TITLE_KEY, channel.getTitle()).
+                    putString(ChoseStartScreenActivity.NEWS_SCREEN_LINK_KEY, channel.getLink()).apply();
             newsScreen = new NewsScreen(this, channel);
         }
         if (null != savedInstanceState)

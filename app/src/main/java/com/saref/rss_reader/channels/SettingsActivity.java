@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 
+import com.saref.rss_reader.ChoseStartScreenActivity;
 import com.saref.rss_reader.R;
 import com.saref.rss_reader.alarms.AlarmReceiver;
 import com.saref.rss_reader.alarms.SetAlarmsService;
@@ -71,5 +73,12 @@ public class SettingsActivity extends PreferenceActivity
     {
         super.onPause();
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        startActivity(ChannelsActivity.getChannelsActivityIntent(this));
     }
 }
