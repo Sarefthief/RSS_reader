@@ -32,16 +32,22 @@ public class NewsAdapter extends ArrayAdapter<FeedItem>
 
     @NonNull
     @Override
-    public View getView(final int position, @Nullable View convertView, @NonNull final ViewGroup parent)
+    public View getView(final int position, View convertView, @NonNull final ViewGroup parent)
     {
-
+        ViewHolder holder;
         if (convertView == null)
         {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_news, parent, false);
+            holder = new ViewHolder();
+            holder.newsTitle = convertView.findViewById(R.id.newsTitle);
+            holder.newsDescription = convertView.findViewById(R.id.newsDescription);
+            convertView.setTag(holder);
         }
-        ViewHolder holder = new ViewHolder();
-        holder.newsTitle = convertView.findViewById(R.id.newsTitle);
-        holder.newsDescription = convertView.findViewById(R.id.newsDescription);
+        else
+        {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
         convertView.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -59,12 +65,14 @@ public class NewsAdapter extends ArrayAdapter<FeedItem>
         return convertView;
     }
 
-    private CharSequence stripHtml(String s) {
+    private CharSequence stripHtml(String s)
+    {
         return Html.fromHtml(s).toString().replace('\n', (char) 32)
                 .replace((char) 160, (char) 32).replace((char) 65532, (char) 32).trim();
     }
 
-    private static class ViewHolder {
+    private static class ViewHolder
+    {
         private TextView newsTitle;
         private TextView newsDescription;
     }
