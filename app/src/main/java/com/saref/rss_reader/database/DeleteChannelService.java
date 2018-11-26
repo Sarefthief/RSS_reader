@@ -11,9 +11,12 @@ import com.saref.rss_reader.Constants;
 import com.saref.rss_reader.alarms.AlarmReceiver;
 import com.saref.rss_reader.alarms.SetAlarmsService;
 
+import java.util.logging.Logger;
+
 public class DeleteChannelService extends IntentService
 {
     private SQLiteDatabase database;
+    private static final Logger logger = Logger.getLogger(DeleteChannelService.class.getName());
 
     public DeleteChannelService()
     {
@@ -59,7 +62,7 @@ public class DeleteChannelService extends IntentService
             }
             catch (SQLiteException e)
             {
-
+                logger.severe("Cant delete " + intent.getStringExtra(Constants.DELETE_CHANNEL_EXTRA));
             }
         }
     }

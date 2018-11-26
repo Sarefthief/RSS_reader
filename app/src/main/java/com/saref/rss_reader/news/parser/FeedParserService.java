@@ -27,10 +27,12 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public final class FeedParserService extends IntentService
 {
     private SQLiteDatabase database;
+    private static final Logger logger = Logger.getLogger(FeedParserService.class.getName());
 
     public FeedParserService()
     {
@@ -89,15 +91,18 @@ public final class FeedParserService extends IntentService
         }
         catch (IOException e)
         {
-
+            logger.severe("Cant establish connection with " + link);
+            sendErrorBroadcast(getString(R.string.connectionError));
         }
         catch (XmlPullParserException e)
         {
-
+            logger.severe("XmlPullParser exception occurred");
+            sendErrorBroadcast(getString(R.string.connectionError));
         }
         catch (WrongXmlTypeException e)
         {
-
+            logger.severe("Xml is wrong type");
+            sendErrorBroadcast(getString(R.string.notRssOrAtomXmlError));
         }
     }
 
@@ -168,7 +173,8 @@ public final class FeedParserService extends IntentService
             }
             catch (SQLiteException e)
             {
-
+                logger.severe("Cant insert row with link = " + itemList.get(i).getLink());
+                sendErrorBroadcast("");
             }
         }
     }
@@ -220,8 +226,10 @@ public final class FeedParserService extends IntentService
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
-    private void sendErrorBroadcast()
+    private void sendErrorBroadcast(String errorText)
     {
-
+        final Intent intent = new Intent(Constants.FEED_PARSER_ERROR);
+        intent.putExtra(Constants.FEED_PARSER_ERROR, errorText);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }

@@ -11,6 +11,7 @@
     <string name="rssChannelEnterHint">Введите адрес RSS канала</string>
     <string name="addChannelButton">Добавить</string>
 
+    <string name="isNotCorrectURL">Некорректно указан url</string>
     <string name="connectionError">Не удалость подключиться к заданному адресу</string>
     <string name="channelIsAlreadyExistsError">Данный канал уже существует</string>
     <string name="notRssOrAtomXmlError">По данному адресу, не обнаружена RSS или ATOM лента</string>

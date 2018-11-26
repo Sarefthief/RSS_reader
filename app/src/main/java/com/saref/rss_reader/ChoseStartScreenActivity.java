@@ -5,11 +5,20 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.saref.rss_reader.alarms.SetAlarmsService;
 import com.saref.rss_reader.channels.Channel;
 import com.saref.rss_reader.channels.ChannelsActivity;
+import com.saref.rss_reader.channels.LoadChannelsFromDatabaseService;
 import com.saref.rss_reader.channels.SettingsActivity;
 import com.saref.rss_reader.channels.add.AddChannelActivity;
+import com.saref.rss_reader.channels.parser.CheckChannelService;
+import com.saref.rss_reader.database.DeleteChannelService;
+import com.saref.rss_reader.news.LoadNewsFromDatabaseService;
 import com.saref.rss_reader.news.NewsActivity;
+import com.saref.rss_reader.news.parser.FeedParserService;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class ChoseStartScreenActivity extends AppCompatActivity
 {
@@ -24,6 +33,15 @@ public final class ChoseStartScreenActivity extends AppCompatActivity
     protected void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        AndroidLoggingHandler.reset(new AndroidLoggingHandler());
+        java.util.logging.Logger.getLogger(FeedParserService.class.getName()).setLevel(Level.FINEST);
+        java.util.logging.Logger.getLogger(CheckChannelService.class.getName()).setLevel(Level.FINEST);
+        java.util.logging.Logger.getLogger(SetAlarmsService.class.getName()).setLevel(Level.FINEST);
+        java.util.logging.Logger.getLogger(LoadChannelsFromDatabaseService.class.getName()).setLevel(Level.FINEST);
+        java.util.logging.Logger.getLogger(LoadNewsFromDatabaseService.class.getName()).setLevel(Level.FINEST);
+        java.util.logging.Logger.getLogger(DeleteChannelService.class.getName()).setLevel(Level.FINEST);
+
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         final String lastScreen = sharedPreferences.getString(LAST_VISITED_SCREEN, CHANNELS_SCREEN_IS_LAST);
         switch (lastScreen)

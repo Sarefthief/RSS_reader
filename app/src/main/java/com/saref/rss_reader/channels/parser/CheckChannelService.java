@@ -24,10 +24,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.logging.Logger;
 
 public final class CheckChannelService extends IntentService
 {
     private SQLiteDatabase database;
+    private static final Logger logger = Logger.getLogger(CheckChannelService.class.getName());
 
     public CheckChannelService()
     {
@@ -80,20 +82,22 @@ public final class CheckChannelService extends IntentService
             }
             catch (XmlPullParserException e)
             {
+                logger.severe("XmlPullParserException occurred");
                 sendErrorBroadcast(getString(R.string.connectionError));
             }
             catch (IOException e)
             {
+                logger.severe("Connection error");
                 sendErrorBroadcast(getString(R.string.connectionError));
             }
             catch (WrongXmlTypeException e)
             {
-                //TODO Логирование
+                logger.severe(channel.getLink() + " contains wrong type of xml");
                 sendErrorBroadcast(getString(R.string.notRssOrAtomXmlError));
             }
             catch (ChannelAlreadyExistException e)
             {
-                //TODO Логирование
+                logger.severe(channel.getLink() + " is already exist");
                 sendErrorBroadcast(getString(R.string.channelIsAlreadyExistsError));
             }
         }
@@ -111,8 +115,8 @@ public final class CheckChannelService extends IntentService
         }
         catch (SQLiteException e)
         {
-            //TODO Логирование
-            sendErrorBroadcast(getString(R.string.channelWriteSqlError));
+            logger.severe(channel.getLink() + " throwed SqliteException");
+            sendErrorBroadcast("");
         }
     }
 
@@ -133,7 +137,8 @@ public final class CheckChannelService extends IntentService
         }
         catch (SQLiteException e)
         {
-            sendErrorBroadcast(getString(R.string.channelWriteSqlError));
+            logger.severe(channel.getLink() + " throwed SqliteException");
+            sendErrorBroadcast("");
         }
     }
 

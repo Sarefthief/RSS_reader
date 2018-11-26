@@ -11,6 +11,7 @@ public final class Constants
     public static final String ADD_CHANNEL_MESSAGE = "ADD_CHANNEL_MESSAGE";
     public static final String LOAD_CHANNELS_LIST_MESSAGE = "LOAD_CHANNELS_LIST_MESSAGE";
 
+    public static final String FEED_PARSER_ERROR = "FEED_PARSER_ERROR";
     public static final String ADD_NEWS_FROM_PARSER_MESSAGE = "ADD_NEWS_FROM_PARSER_MESSAGE";
     public static final String LOAD_FROM_DATABASE_MESSAGE = "LOAD_FROM_DATABASE_MESSAGE";
     public static final String CHANNEL_TO_CHECK = "CHANNEL_TO_CHECK";

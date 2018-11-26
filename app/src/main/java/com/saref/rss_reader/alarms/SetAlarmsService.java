@@ -11,10 +11,12 @@ import com.saref.rss_reader.database.ChannelsContract;
 import com.saref.rss_reader.database.DatabaseManager;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public final class SetAlarmsService extends IntentService
 {
     private SQLiteDatabase database;
+    private static final Logger logger = Logger.getLogger(SetAlarmsService.class.getName());
 
     public SetAlarmsService()
     {
@@ -63,7 +65,7 @@ public final class SetAlarmsService extends IntentService
         }
         catch (SQLiteException e)
         {
-
+            logger.severe("SQLiteException in getAllChannelsLinks");
         }
 
         return channelsLinksList;

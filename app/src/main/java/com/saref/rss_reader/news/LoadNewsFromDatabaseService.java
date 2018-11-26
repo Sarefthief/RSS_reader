@@ -14,10 +14,12 @@ import com.saref.rss_reader.database.DatabaseManager;
 import com.saref.rss_reader.database.NewsContract;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public final class LoadNewsFromDatabaseService extends IntentService
 {
     private SQLiteDatabase database;
+    private static final Logger logger = Logger.getLogger(LoadNewsFromDatabaseService.class.getName());
 
     private String[] projection = {
             NewsContract.COLUMN_NAME_TITLE,
@@ -68,7 +70,7 @@ public final class LoadNewsFromDatabaseService extends IntentService
         }
         catch (SQLiteException e)
         {
-
+            logger.severe("Cant get news with channel Id = " + channelId);
         }
         if (null != cursor)
         {
@@ -100,7 +102,7 @@ public final class LoadNewsFromDatabaseService extends IntentService
         }
         catch (SQLiteException e)
         {
-
+            logger.severe("Cant find channel with link = " + link);
         }
         if (null != cursor)
         {

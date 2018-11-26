@@ -41,7 +41,9 @@ final class AddChannelScreen implements LifeCycleInterface
         {
             if (Constants.ADD_CHANNEL_ERROR.equals(intent.getAction()))
             {
-                showToast(intent.getStringExtra(Constants.ADD_CHANNEL_ERROR));
+                if(!"".equals(intent.getStringExtra(Constants.ADD_CHANNEL_ERROR))){
+                    showToast(intent.getStringExtra(Constants.ADD_CHANNEL_ERROR));
+                }
                 isClicked = false;
             }
             if (Constants.ADD_CHANNEL_MESSAGE.equals(intent.getAction()))
@@ -50,7 +52,8 @@ final class AddChannelScreen implements LifeCycleInterface
                 final boolean check = sharedPreferences.getBoolean(context.getString(R.string.alarmCheckBoxPreferenceKey), true);
                 sharedPreferences.edit().remove(EDIT_TEXT_INPUT_STRING).apply();
                 isSaveNeeded = false;
-                if(check){
+                if (check)
+                {
                     activity.startService(SetAlarmsService.getAlarmsServiceIntent(activity));
                 }
                 activity.startActivity(ChannelsActivity.getChannelsActivityIntent(activity));
@@ -101,7 +104,7 @@ final class AddChannelScreen implements LifeCycleInterface
                     catch (MalformedURLException e)
                     {
                         isClicked = false;
-                        channelUrlField.setError("Test");
+                        channelUrlField.setError(activity.getString(R.string.isNotCorrectURL));
                     }
                 }
             }
@@ -115,7 +118,8 @@ final class AddChannelScreen implements LifeCycleInterface
 
     void saveInput()
     {
-        if(isSaveNeeded){
+        if (isSaveNeeded)
+        {
             final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
             sharedPreferences.edit().putString(EDIT_TEXT_INPUT_STRING, channelUrlField.getText().toString()).apply();
         }

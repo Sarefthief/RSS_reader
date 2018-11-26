@@ -13,10 +13,12 @@ import com.saref.rss_reader.database.ChannelsContract;
 import com.saref.rss_reader.database.DatabaseManager;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class LoadChannelsFromDatabaseService extends IntentService
 {
     private SQLiteDatabase database;
+    private static final Logger logger = Logger.getLogger(LoadChannelsFromDatabaseService.class.getName());
 
     private final String[] projection = {
             ChannelsContract.COLUMN_NAME_TITLE,
@@ -58,7 +60,7 @@ public class LoadChannelsFromDatabaseService extends IntentService
         }
         catch (SQLiteException e)
         {
-
+            logger.severe("Cant load channels from database");
         }
         if (null != cursor)
         {

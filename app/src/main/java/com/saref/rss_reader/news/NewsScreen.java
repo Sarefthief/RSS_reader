@@ -12,6 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.saref.rss_reader.Constants;
 import com.saref.rss_reader.LifeCycleInterface;
@@ -89,7 +90,11 @@ final class NewsScreen implements LifeCycleInterface
                 activity.startActivity(ChannelsActivity.getChannelsActivityIntent(activity));
                 activity.finish();
             }
-            //TODO Ошибки, особождение переменной
+            if (Constants.FEED_PARSER_ERROR.equals(intent.getAction()))
+            {
+                Toast.makeText(activity, intent.getStringExtra(Constants.FEED_PARSER_ERROR), Toast.LENGTH_LONG).show();
+                parserIsWorking = false;
+            }
         }
     };
 
@@ -118,6 +123,7 @@ final class NewsScreen implements LifeCycleInterface
         final IntentFilter filter = new IntentFilter(Constants.LOAD_FROM_DATABASE_MESSAGE);
         filter.addAction(Constants.ADD_NEWS_FROM_PARSER_MESSAGE);
         filter.addAction(Constants.CHANNEL_IS_DELETED);
+        filter.addAction(Constants.FEED_PARSER_ERROR);
         LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, filter);
     }
 
