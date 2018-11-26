@@ -1,7 +1,5 @@
 package com.saref.rss_reader.database;
 
-import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
@@ -9,14 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.saref.rss_reader.Constants;
 import com.saref.rss_reader.alarms.AlarmReceiver;
 import com.saref.rss_reader.alarms.SetAlarmsService;
-import com.saref.rss_reader.news.NewsActivity;
 
 public class DeleteChannelService extends IntentService
 {
-    public final static String DELETE_CHANNEL_EXTRA = "DELETE_CHANNEL_EXTRA";
-
     private SQLiteDatabase database;
 
     public DeleteChannelService()
@@ -27,7 +23,7 @@ public class DeleteChannelService extends IntentService
     public static Intent getDeleteChannelServiceIntent(final Context context, final String link)
     {
         final Intent intent = new Intent(context, DeleteChannelService.class);
-        intent.putExtra(DELETE_CHANNEL_EXTRA, link);
+        intent.putExtra(Constants.DELETE_CHANNEL_EXTRA, link);
         return intent;
     }
 
@@ -51,7 +47,7 @@ public class DeleteChannelService extends IntentService
         if (null != intent.getExtras())
         {
             final String selection = ChannelsContract.COLUMN_NAME_LINK + " = ?";
-            final String[] selectionArgs = {intent.getStringExtra(DELETE_CHANNEL_EXTRA)};
+            final String[] selectionArgs = {intent.getStringExtra(Constants.DELETE_CHANNEL_EXTRA)};
 
             try
             {
@@ -70,6 +66,6 @@ public class DeleteChannelService extends IntentService
 
     private void sendBroadcast()
     {
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(NewsActivity.CHANNEL_IS_DELETED));
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Constants.CHANNEL_IS_DELETED));
     }
 }

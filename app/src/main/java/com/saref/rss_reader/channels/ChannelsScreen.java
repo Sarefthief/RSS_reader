@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.ListView;
 
+import com.saref.rss_reader.Constants;
 import com.saref.rss_reader.LifeCycleInterface;
 import com.saref.rss_reader.R;
 
@@ -28,9 +29,9 @@ final class ChannelsScreen implements LifeCycleInterface
         @Override
         public void onReceive(final Context context, final Intent intent)
         {
-            if (ChannelsActivity.LOAD_CHANNELS_LIST_MESSAGE.equals(intent.getAction()))
+            if (Constants.LOAD_CHANNELS_LIST_MESSAGE.equals(intent.getAction()))
             {
-                channelsList = intent.getParcelableArrayListExtra(ChannelsActivity.LOAD_CHANNELS_LIST_MESSAGE);
+                channelsList = intent.getParcelableArrayListExtra(Constants.LOAD_CHANNELS_LIST_MESSAGE);
                 showChannels();
             }
         }
@@ -51,7 +52,7 @@ final class ChannelsScreen implements LifeCycleInterface
     @Override
     public void onResume()
     {
-        LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(ChannelsActivity.LOAD_CHANNELS_LIST_MESSAGE));
+        LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(Constants.LOAD_CHANNELS_LIST_MESSAGE));
         activity.startService(LoadChannelsFromDatabaseService.getLoadChannelsServiceIntent(activity));
     }
 

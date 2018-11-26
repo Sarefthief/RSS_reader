@@ -8,9 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.saref.rss_reader.Constants;
 import com.saref.rss_reader.database.ChannelsContract;
 import com.saref.rss_reader.database.DatabaseManager;
-import com.saref.rss_reader.database.RssReaderDbHelper;
 
 import java.util.ArrayList;
 
@@ -75,8 +75,8 @@ public class LoadChannelsFromDatabaseService extends IntentService
 
     private void sendBroadcast(final ArrayList<Channel> channelsList)
     {
-        final Intent intent = new Intent(ChannelsActivity.LOAD_CHANNELS_LIST_MESSAGE);
-        intent.putParcelableArrayListExtra(ChannelsActivity.LOAD_CHANNELS_LIST_MESSAGE, channelsList);
+        final Intent intent = new Intent(Constants.LOAD_CHANNELS_LIST_MESSAGE);
+        intent.putParcelableArrayListExtra(Constants.LOAD_CHANNELS_LIST_MESSAGE, channelsList);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }

@@ -10,10 +10,9 @@ import android.database.sqlite.SQLiteException;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.saref.rss_reader.ConnectionEstablishment;
+import com.saref.rss_reader.Constants;
 import com.saref.rss_reader.R;
 import com.saref.rss_reader.channels.Channel;
-import com.saref.rss_reader.channels.ChannelsActivity;
-import com.saref.rss_reader.channels.add.AddChannelActivity;
 import com.saref.rss_reader.database.ChannelsContract;
 import com.saref.rss_reader.database.DatabaseManager;
 import com.saref.rss_reader.exceptions.ChannelAlreadyExistException;
@@ -28,7 +27,6 @@ import java.net.URL;
 
 public final class CheckChannelService extends IntentService
 {
-    public static final String CHECK_CHANNEL_EXTRA_URL = "CHECK_CHANNEL_EXTRA_URL";
     private SQLiteDatabase database;
 
     public CheckChannelService()
@@ -39,7 +37,7 @@ public final class CheckChannelService extends IntentService
     public static Intent getCheckChannelServiceIntent(final Context context, final Channel channel)
     {
         final Intent intent = new Intent(context, CheckChannelService.class);
-        intent.putExtra(CHECK_CHANNEL_EXTRA_URL, channel);
+        intent.putExtra(Constants.CHECK_CHANNEL_EXTRA_URL, channel);
         return intent;
     }
 
@@ -60,9 +58,9 @@ public final class CheckChannelService extends IntentService
     @Override
     protected void onHandleIntent(final Intent intent)
     {
-        if (intent.hasExtra(CHECK_CHANNEL_EXTRA_URL))
+        if (intent.hasExtra(Constants.CHECK_CHANNEL_EXTRA_URL))
         {
-            final Channel channel = intent.getParcelableExtra(CHECK_CHANNEL_EXTRA_URL);
+            final Channel channel = intent.getParcelableExtra(Constants.CHECK_CHANNEL_EXTRA_URL);
             final ChannelParser channelParser = new ChannelParser();
             try
             {
@@ -72,21 +70,21 @@ public final class CheckChannelService extends IntentService
                 try
                 {
                     channel.setTitle(channelParser.getChannelTitle(inputStream));
+                    saveChannelToDatabase(channel);
                 }
                 finally
                 {
                     inputStream.close();
                     connection.disconnect();
-                    saveChannelToDatabase(channel);
                 }
             }
             catch (XmlPullParserException e)
             {
-
+                sendErrorBroadcast(getString(R.string.connectionError));
             }
             catch (IOException e)
             {
-
+                sendErrorBroadcast(getString(R.string.connectionError));
             }
             catch (WrongXmlTypeException e)
             {
@@ -135,19 +133,19 @@ public final class CheckChannelService extends IntentService
         }
         catch (SQLiteException e)
         {
-
+            sendErrorBroadcast(getString(R.string.channelWriteSqlError));
         }
     }
 
     private void sendBroadcast()
     {
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ChannelsActivity.ADD_CHANNEL_MESSAGE));
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Constants.ADD_CHANNEL_MESSAGE));
     }
 
     private void sendErrorBroadcast(final String errorText)
     {
-        final Intent intent = new Intent(AddChannelActivity.ADD_CHANNEL_ERROR);
-        intent.putExtra(AddChannelActivity.ADD_CHANNEL_ERROR, errorText);
+        final Intent intent = new Intent(Constants.ADD_CHANNEL_ERROR);
+        intent.putExtra(Constants.ADD_CHANNEL_ERROR, errorText);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }

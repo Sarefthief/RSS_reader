@@ -9,7 +9,9 @@ public final class SampleBootReceiver extends BroadcastReceiver
     @Override
     public void onReceive(final Context context,final Intent intent)
     {
-        if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction()))
+        final String BOOT_COMPLETED = "android.intent.action.BOOT_COMPLETED";
+        final String QUICKBOOT_POWERON = "android.intent.action.QUICKBOOT_POWERON";
+        if (BOOT_COMPLETED.equals(intent.getAction()) || QUICKBOOT_POWERON.equals(intent.getAction()))
         {
             context.startService(SetAlarmsService.getAlarmsServiceIntent(context));
         }

@@ -1,6 +1,5 @@
 package com.saref.rss_reader.news.parser;
 
-import android.app.Activity;
 import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,14 +12,13 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.saref.rss_reader.ConnectionEstablishment;
+import com.saref.rss_reader.Constants;
 import com.saref.rss_reader.R;
 import com.saref.rss_reader.database.ChannelsContract;
 import com.saref.rss_reader.database.DatabaseManager;
 import com.saref.rss_reader.database.NewsContract;
-import com.saref.rss_reader.database.RssReaderDbHelper;
 import com.saref.rss_reader.exceptions.WrongXmlTypeException;
 import com.saref.rss_reader.news.FeedItem;
-import com.saref.rss_reader.news.NewsActivity;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -42,7 +40,7 @@ public final class FeedParserService extends IntentService
     public static Intent getParserServiceIntent(final Context context, final String url)
     {
         Intent intent = new Intent(context, FeedParserService.class);
-        intent.putExtra(NewsActivity.CHANNEL_LINK_EXTRA, url);
+        intent.putExtra(Constants.CHANNEL_LINK_EXTRA, url);
         return intent;
     }
 
@@ -65,7 +63,7 @@ public final class FeedParserService extends IntentService
     {
         if (null != intent.getExtras())
         {
-            parseFeed(intent.getStringExtra(NewsActivity.CHANNEL_LINK_EXTRA));
+            parseFeed(intent.getStringExtra(Constants.CHANNEL_LINK_EXTRA));
         }
     }
 
@@ -216,9 +214,9 @@ public final class FeedParserService extends IntentService
 
     private void sendBroadcast(final ArrayList itemList, final String link)
     {
-        final Intent intent = new Intent(NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE);
-        intent.putExtra(NewsActivity.LINK_TO_CHECK, link);
-        intent.putExtra(NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE, itemList);
+        final Intent intent = new Intent(Constants.ADD_NEWS_FROM_PARSER_MESSAGE);
+        intent.putExtra(Constants.LINK_TO_CHECK, link);
+        intent.putExtra(Constants.ADD_NEWS_FROM_PARSER_MESSAGE, itemList);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 

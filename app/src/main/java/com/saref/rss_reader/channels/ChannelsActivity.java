@@ -15,9 +15,6 @@ import com.saref.rss_reader.channels.add.AddChannelActivity;
 
 public final class ChannelsActivity extends AppCompatActivity
 {
-    public static String ADD_CHANNEL_MESSAGE = "ADD_CHANNEL_MESSAGE";
-    public static String LOAD_CHANNELS_LIST_MESSAGE = "LOAD_CHANNELS_LIST_MESSAGE";
-
     private ChannelsScreen channelsScreen;
 
     public static Intent getChannelsActivityIntent(final Context context)

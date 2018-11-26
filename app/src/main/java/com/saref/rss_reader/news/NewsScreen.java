@@ -13,9 +13,9 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.saref.rss_reader.Constants;
 import com.saref.rss_reader.LifeCycleInterface;
 import com.saref.rss_reader.R;
-import com.saref.rss_reader.alarms.AlarmReceiver;
 import com.saref.rss_reader.alarms.SetAlarmsService;
 import com.saref.rss_reader.channels.Channel;
 import com.saref.rss_reader.channels.ChannelsActivity;
@@ -51,11 +51,11 @@ final class NewsScreen implements LifeCycleInterface
         @Override
         public void onReceive(final Context context, final Intent intent)
         {
-            if (NewsActivity.LOAD_FROM_DATABASE_MESSAGE.equals(intent.getAction()))
+            if (Constants.LOAD_FROM_DATABASE_MESSAGE.equals(intent.getAction()))
             {
-                if (channelLink.equals(intent.getStringExtra(NewsActivity.LINK_TO_CHECK)))
+                if (channelLink.equals(intent.getStringExtra(Constants.LINK_TO_CHECK)))
                 {
-                    itemList = intent.getParcelableArrayListExtra(NewsActivity.LOAD_FROM_DATABASE_MESSAGE);
+                    itemList = intent.getParcelableArrayListExtra(Constants.LOAD_FROM_DATABASE_MESSAGE);
                     if (0 != itemList.size())
                     {
                         progressBar.setVisibility(View.GONE);
@@ -64,13 +64,13 @@ final class NewsScreen implements LifeCycleInterface
                     startParserService();
                 }
             }
-            if (NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE.equals(intent.getAction()))
+            if (Constants.ADD_NEWS_FROM_PARSER_MESSAGE.equals(intent.getAction()))
             {
-                if (channelLink.equals(intent.getStringExtra(NewsActivity.LINK_TO_CHECK)))
+                if (channelLink.equals(intent.getStringExtra(Constants.LINK_TO_CHECK)))
                 {
                     parserIsWorking = false;
                     progressBar.setVisibility(View.GONE);
-                    final ArrayList<FeedItem> listToAdd = intent.getParcelableArrayListExtra(NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE);
+                    final ArrayList<FeedItem> listToAdd = intent.getParcelableArrayListExtra(Constants.ADD_NEWS_FROM_PARSER_MESSAGE);
                     itemList.addAll(0, listToAdd);
                     if (0 == itemList.size())
                     {
@@ -79,7 +79,7 @@ final class NewsScreen implements LifeCycleInterface
                     setAdapter();
                 }
             }
-            if (NewsActivity.CHANNEL_IS_DELETED.equals(intent.getAction()))
+            if (Constants.CHANNEL_IS_DELETED.equals(intent.getAction()))
             {
                 final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
                 final boolean check = sharedPreferences.getBoolean(context.getString(R.string.alarmCheckBoxPreferenceKey), true);
@@ -115,9 +115,10 @@ final class NewsScreen implements LifeCycleInterface
     @Override
     public void onResume()
     {
-        LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(NewsActivity.LOAD_FROM_DATABASE_MESSAGE));
-        LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(NewsActivity.ADD_NEWS_FROM_PARSER_MESSAGE));
-        LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, new IntentFilter(NewsActivity.CHANNEL_IS_DELETED));
+        final IntentFilter filter = new IntentFilter(Constants.LOAD_FROM_DATABASE_MESSAGE);
+        filter.addAction(Constants.ADD_NEWS_FROM_PARSER_MESSAGE);
+        filter.addAction(Constants.CHANNEL_IS_DELETED);
+        LocalBroadcastManager.getInstance(activity).registerReceiver(receiver, filter);
     }
 
     @Override

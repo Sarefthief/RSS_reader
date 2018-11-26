@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.intent.action.QUICKBOOT_POWERON" />
 
     <application
         android:allowBackup="true"
@@ -53,16 +54,20 @@
         <service android:name="com.saref.rss_reader.news.LoadNewsFromDatabaseService" />
         <service android:name="com.saref.rss_reader.channels.LoadChannelsFromDatabaseService" />
         <service android:name="com.saref.rss_reader.database.DeleteChannelService" />
-        <service android:name="com.saref.rss_reader.alarms.SetAlarmsService" />
+        <service
+            android:name="com.saref.rss_reader.alarms.SetAlarmsService"
+            android:enabled="true"/>
 
         <receiver
             android:name="com.saref.rss_reader.alarms.AlarmReceiver"
-            android:process=":remote" />
+            android:process=":remote"
+            />
         <receiver
             android:name="com.saref.rss_reader.alarms.SampleBootReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
     </application>

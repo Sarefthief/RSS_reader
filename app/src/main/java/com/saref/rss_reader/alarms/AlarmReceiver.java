@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.saref.rss_reader.Constants;
 import com.saref.rss_reader.R;
 import com.saref.rss_reader.news.parser.FeedParserService;
 
@@ -16,12 +17,12 @@ import java.util.Calendar;
 
 public final class AlarmReceiver extends BroadcastReceiver
 {
-    public static final String ALARM_EXTRA = "ALARM_EXTRA";
+
 
     @Override
     public void onReceive(final Context context, final Intent intent)
     {
-        final ArrayList<String> channelsLinksList = intent.getStringArrayListExtra(ALARM_EXTRA);
+        final ArrayList<String> channelsLinksList = intent.getStringArrayListExtra(Constants.ALARM_EXTRA);
         for (int i = 0; i < channelsLinksList.size(); i++)
         {
             context.startService(FeedParserService.getParserServiceIntent(context, channelsLinksList.get(i)));
@@ -40,7 +41,7 @@ public final class AlarmReceiver extends BroadcastReceiver
 
         final AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         final Intent receiverIntent = new Intent(context, AlarmReceiver.class);
-        receiverIntent.putStringArrayListExtra(ALARM_EXTRA, channelsLinkList);
+        receiverIntent.putStringArrayListExtra(Constants.ALARM_EXTRA, channelsLinkList);
         final PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (null != alarmManager)
         {

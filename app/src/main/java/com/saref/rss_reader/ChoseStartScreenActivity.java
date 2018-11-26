@@ -31,7 +31,7 @@ public final class ChoseStartScreenActivity extends AppCompatActivity
             case NEWS_SCREEN_IS_LAST:
                 final String channelLink = sharedPreferences.getString(NEWS_SCREEN_LINK_KEY, "");
                 final String channelTitle = sharedPreferences.getString(NEWS_SCREEN_TITLE_KEY, "");
-                if (!channelLink.equals("") && !channelTitle.equals(""))
+                if (!"".equals(channelLink) && !"".equals(channelTitle))
                 {
                     startActivity(NewsActivity.getNewsActivityIntent(this, new Channel(channelTitle, channelLink)));
                 }

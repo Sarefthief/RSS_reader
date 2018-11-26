@@ -1,6 +1,5 @@
 package com.saref.rss_reader.news;
 
-import android.app.Activity;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.saref.rss_reader.Constants;
 import com.saref.rss_reader.database.ChannelsContract;
 import com.saref.rss_reader.database.DatabaseManager;
 import com.saref.rss_reader.database.NewsContract;
@@ -34,7 +34,7 @@ public final class LoadNewsFromDatabaseService extends IntentService
     public static Intent getLoadNewsServiceIntent(final Context context, final String url)
     {
         Intent intent = new Intent(context, LoadNewsFromDatabaseService.class);
-        intent.putExtra(NewsActivity.CHANNEL_LINK_EXTRA, url);
+        intent.putExtra(Constants.CHANNEL_LINK_EXTRA, url);
         return intent;
     }
 
@@ -55,7 +55,7 @@ public final class LoadNewsFromDatabaseService extends IntentService
     @Override
     protected void onHandleIntent(final Intent intent)
     {
-        String link = intent.getStringExtra(NewsActivity.CHANNEL_LINK_EXTRA);
+        String link = intent.getStringExtra(Constants.CHANNEL_LINK_EXTRA);
         ArrayList<FeedItem> newsList = new ArrayList<>();
         Cursor cursor = null;
         String selection = NewsContract.COLUMN_NAME_CHANNEL_ID + " = ?";
@@ -112,9 +112,9 @@ public final class LoadNewsFromDatabaseService extends IntentService
 
     private void sendBroadcast(final ArrayList<FeedItem> newsList, final String link)
     {
-        final Intent intent = new Intent(NewsActivity.LOAD_FROM_DATABASE_MESSAGE);
-        intent.putExtra(NewsActivity.LINK_TO_CHECK, link);
-        intent.putParcelableArrayListExtra(NewsActivity.LOAD_FROM_DATABASE_MESSAGE, newsList);
+        final Intent intent = new Intent(Constants.LOAD_FROM_DATABASE_MESSAGE);
+        intent.putExtra(Constants.LINK_TO_CHECK, link);
+        intent.putParcelableArrayListExtra(Constants.LOAD_FROM_DATABASE_MESSAGE, newsList);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }

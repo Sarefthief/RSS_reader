@@ -8,7 +8,7 @@ import android.os.Build;
 
 public class RssReaderDbHelper extends SQLiteOpenHelper
 {
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 10;
     private static final String DATABASE_NAME = "RssReader.db";
 
     private static final String SQL_CREATE_CHANNELS =
